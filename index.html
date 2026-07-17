@@ -1181,7 +1181,7 @@ function wxRender(main, prob, note){
       ? prob.daily.precipitation_probability_max[i] : null;
     const sums = WX_MODELS.map(m => d['precipitation_sum_'+m.key][i]).filter(v => v != null);
     const avg = sums.length ? sums.reduce((a,b)=>a+b,0)/sums.length : 0;
-    if (date >= todayManila && avg > maxRain) { maxRain = avg; maxRainDate = `${md} (${dow})`; }
+    if (date >= todayManila && date < '2026-07-24' && avg > maxRain) { maxRain = avg; maxRainDate = `${md} (${dow})`; }
     const cls = date < todayManila ? 'wx-past' : (date === todayManila ? 'wx-today' : '');
     const cells = WX_MODELS.map(m => {
       const tx = d['temperature_2m_max_'+m.key][i];
