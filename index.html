@@ -199,6 +199,28 @@
   details.credits summary { cursor:pointer; font-weight:700; }
   details.credits a { font-weight:600; }
 
+  /* weather */
+  .wx-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; font-size:.85rem; color:var(--ink-soft); font-weight:600; }
+  .wx-btn {
+    border:1.5px solid var(--teal); background:var(--card); color:var(--teal-dark);
+    border-radius:999px; padding:6px 14px; font-weight:800; font-size:.83rem; cursor:pointer; white-space:nowrap;
+  }
+  .wx-wrap { overflow-x:auto; }
+  table.wx { width:100%; min-width:470px; border-collapse:collapse; font-size:.85rem; }
+  table.wx th, table.wx td { padding:8px 4px; border-bottom:1px solid var(--line); text-align:center; vertical-align:top; }
+  table.wx thead th { font-size:.82rem; color:var(--teal-dark); }
+  table.wx thead th span { display:block; font-size:.68rem; color:var(--ink-soft); font-weight:600; }
+  table.wx td.wx-day { text-align:left; white-space:nowrap; font-weight:800; font-size:.83rem; }
+  table.wx td.wx-day .sub { display:block; font-weight:600; font-size:.72rem; color:var(--ink-soft); }
+  table.wx td.wx-day .pr { display:block; font-weight:700; font-size:.72rem; color:var(--teal); }
+  .wx-cell .wi { display:block; font-size:1.25rem; line-height:1.3; }
+  .wx-cell .tt { display:block; font-weight:800; }
+  .wx-cell .tt i { font-style:normal; color:var(--ink-soft); font-weight:600; }
+  .wx-cell .rn { display:block; font-size:.7rem; color:var(--ink-soft); }
+  tr.wx-today td { background:var(--chip); }
+  tr.wx-past { opacity:.45; }
+  .wx-loading { text-align:center; color:var(--ink-soft); padding:18px 4px !important; }
+
   a { color:var(--teal); font-weight:700; word-break:break-all; }
   .btn {
     display:inline-block; background:var(--teal); color:#fff !important; border-radius:12px;
@@ -219,6 +241,7 @@
 <nav class="tabs" id="tabs">
   <button data-t="p-flight" class="on">✈️ 항공·숙소</button>
   <button data-t="p-days">📅 일정표</button>
+  <button data-t="p-weather">🌦️ 날씨</button>
   <button data-t="p-map">🗺️ 지도</button>
   <button data-t="p-act">🤿 액티비티</button>
   <button data-t="p-food">🍽️ 맛집</button>
@@ -458,6 +481,47 @@
     <p class="muted">7월은 우기지만 하루종일 오는 비는 드물고 오후 스콜 위주. 만족도가 가장 높은 발리카삭을 7/20에 앞배치해서 백업일을 확보했어요.<br><br>
     <b>발리카삭(7/20)이 기상으로 취소되면:</b> 발리카삭을 7/21로 옮기고 → 육상투어를 7/22로 → 고래상어는 과감히 포기 (발리카삭이 만족도·안정성 모두 우위). 반딧불은 체력 되면 7/22 저녁 유지.<br><br>
     예약할 때 이렇게 물어보세요: <b>"날씨나 해상 상황으로 취소되면 다음 날로 변경 가능한가요? 환불/변경 규정, 픽업 시간, 포함사항(점심·장비·환경세)도 알려주세요."</b> — 가격보다 이 조건이 더 중요해요!</p>
+  </div>
+
+</section>
+
+<!-- ═══════════ 날씨 ═══════════ -->
+<section class="panel" id="p-weather">
+
+  <div class="card">
+    <h3><span class="em">🌦️</span> 여행 기간 예보 — 기상모델 3종 비교</h3>
+    <p class="muted" style="margin-bottom:10px">알로나 비치(헤난 리조트) 기준 · <b>페이지를 열 때마다 최신 예보로 자동 갱신</b>돼요.</p>
+    <div class="wx-meta"><span id="wxStamp">🔄 갱신 중…</span><button class="wx-btn" id="wxReload">🔄 새로고침</button></div>
+    <div class="wx-wrap">
+      <table class="wx">
+        <thead><tr>
+          <th style="text-align:left">날짜</th>
+          <th>ECMWF<span>유럽 · Windy 기본</span></th>
+          <th>GFS<span>미국 NOAA</span></th>
+          <th>ICON<span>독일 기상청</span></th>
+        </tr></thead>
+        <tbody id="wxBody"><tr><td colspan="4" class="wx-loading">🔄 세 모델 예보를 불러오는 중…</td></tr></tbody>
+      </table>
+    </div>
+    <p class="muted" id="wxSummary" style="margin-top:10px"></p>
+  </div>
+
+  <div class="card">
+    <h3><span class="em">🔗</span> 3사 사이트에서 직접 확인</h3>
+    <p class="muted">AccuWeather와 웨더채널(weather.com)은 자체 예보를 무료 API로 공개하지 않아 표에는 담을 수 없어요. 대신 아래 버튼으로 <b>팡라오 예보 페이지가 바로</b> 열려요. Windy가 기본으로 보여주는 모델(ECMWF·GFS)은 위 표에 실시간으로 들어가 있어요.</p>
+    <div class="btnrow">
+      <a class="btn" href="https://www.accuweather.com/en/ph/panglao/262355/10-day-weather-forecast/262355" target="_blank">AccuWeather 10일</a>
+      <a class="btn" href="https://weather.com/ko-KR/weather/tenday/l/d0c3c120a687c67f64eece46fe495e67df9878f78bd58f22f0400fe33df8eda6" target="_blank">weather.com 10일</a>
+      <a class="btn" href="https://www.windy.com/9.548/123.774?rain,9.548,123.774,10" target="_blank">Windy 비 지도</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="em">📖</span> 표 읽는 법</h3>
+    <p class="muted">· 각 칸: 하늘 상태 / <b>최고°<span style="opacity:.6">/최저°</span></b> / 예상 강수량<br>
+    · 날짜 옆 💧는 강수확률 (GFS 기준)<br>
+    · 7월 보홀 비는 대부분 <b>오후 스콜</b> — 강수량이 찍혀 있어도 하루 종일 오는 비는 드물어요<br>
+    · 세 모델의 예보가 서로 다르면 그만큼 불확실하다는 뜻 — 해상 투어 전날 밤엔 업체(보자무싸)와 진행 여부를 꼭 확인!</p>
   </div>
 
 </section>
@@ -884,7 +948,7 @@
 
   <div class="card">
     <h3><span class="em">🌦️</span> 7월 보홀 날씨</h3>
-    <p>우기(6~9월)지만 <b>한국 장마와 달리 오후 스콜 위주</b>. 오전엔 맑은 날이 많아 오전 투어 + 오후 휴식 패턴이 최적. 기온 25~31℃, 습도 높음. 비 온 뒤엔 살짝 쌀쌀할 수 있어요.</p>
+    <p>우기(6~9월)지만 <b>한국 장마와 달리 오후 스콜 위주</b>. 오전엔 맑은 날이 많아 오전 투어 + 오후 휴식 패턴이 최적. 기온 25~31℃, 습도 높음. 비 온 뒤엔 살짝 쌀쌀할 수 있어요. 날짜별 실시간 예보는 <b>🌦️ 날씨 탭</b>에서 확인!</p>
   </div>
 
   <div class="card">
@@ -1071,6 +1135,100 @@ function initMap(){
   showRoute('d2');
 }
 document.querySelector('#tabs button[data-t="p-map"]').addEventListener('click', () => setTimeout(initMap, 60));
+
+// ═══ 날씨 예보 (Open-Meteo · 페이지 열 때마다 자동 갱신) ═══
+const WX_LAT = 9.5482, WX_LON = 123.7745;
+const WX_MODELS = [
+  {key:'ecmwf_ifs025'},
+  {key:'gfs_seamless'},
+  {key:'icon_seamless'}
+];
+const WX_DAYS = {
+  '2026-07-18': ['토','✈️ 출발'],
+  '2026-07-19': ['일','🕳️ 도착·동굴'],
+  '2026-07-20': ['월','🐢 호핑투어'],
+  '2026-07-21': ['화','🚐 육상+ATV'],
+  '2026-07-22': ['수','🦈 고래상어·✨반딧불'],
+  '2026-07-23': ['목','🐝 비팜·🛫 출국'],
+  '2026-07-24': ['금','🏠 귀국']
+};
+const WX_CACHE_KEY = 'bohol2026-wx';
+let wxLastOk = 0;
+function wxIcon(c){
+  if (c == null) return ['·','—'];
+  if (c === 0) return ['☀️','맑음'];
+  if (c === 1) return ['🌤️','대체로 맑음'];
+  if (c === 2) return ['⛅','구름 조금'];
+  if (c === 3) return ['☁️','흐림'];
+  if (c === 45 || c === 48) return ['🌫️','안개'];
+  if (c >= 51 && c <= 57) return ['🌦️','이슬비'];
+  if (c === 61) return ['🌦️','약한 비'];
+  if (c <= 67) return ['🌧️','비'];
+  if (c === 80) return ['🌦️','소나기'];
+  if (c === 81) return ['🌧️','소나기'];
+  if (c === 82) return ['⛈️','강한 소나기'];
+  if (c >= 95) return ['⛈️','뇌우'];
+  return ['🌧️','강수'];
+}
+function wxRender(main, prob, note){
+  const d = main.daily;
+  const todayManila = new Date(Date.now() + 8*3600*1000).toISOString().slice(0,10);
+  let maxRain = -1, maxRainDate = null;
+  const rows = d.time.map((date, i) => {
+    const [dow, label] = WX_DAYS[date] || ['',''];
+    const md = `${+date.slice(5,7)}/${+date.slice(8,10)}`;
+    const pp = prob && prob.daily && prob.daily.precipitation_probability_max
+      ? prob.daily.precipitation_probability_max[i] : null;
+    const sums = WX_MODELS.map(m => d['precipitation_sum_'+m.key][i]).filter(v => v != null);
+    const avg = sums.length ? sums.reduce((a,b)=>a+b,0)/sums.length : 0;
+    if (date >= todayManila && avg > maxRain) { maxRain = avg; maxRainDate = `${md} (${dow})`; }
+    const cls = date < todayManila ? 'wx-past' : (date === todayManila ? 'wx-today' : '');
+    const cells = WX_MODELS.map(m => {
+      const tx = d['temperature_2m_max_'+m.key][i];
+      if (tx == null) return '<td class="wx-cell"><span class="wi">·</span><span class="rn">예보 범위 밖</span></td>';
+      const tn = d['temperature_2m_min_'+m.key][i];
+      const rn = d['precipitation_sum_'+m.key][i];
+      const [ic, lb] = wxIcon(d['weather_code_'+m.key][i]);
+      return `<td class="wx-cell"><span class="wi">${ic}</span><span class="tt">${Math.round(tx)}°<i>/${Math.round(tn)}°</i></span><span class="rn">${lb} · ${Math.round(rn)}㎜</span></td>`;
+    }).join('');
+    return `<tr class="${cls}"><td class="wx-day">${md} (${dow})<span class="sub">${label}</span>${pp != null ? `<span class="pr">💧 ${pp}%</span>` : ''}</td>${cells}</tr>`;
+  }).join('');
+  document.getElementById('wxBody').innerHTML = rows;
+  document.getElementById('wxSummary').textContent =
+    (maxRain >= 5 && maxRainDate ? `📌 예보상 비가 가장 몰리는 날: ${maxRainDate} — 그날은 실내·마사지·쇼핑을 유연하게!` : '');
+  document.getElementById('wxStamp').textContent = note;
+}
+async function loadWeather(){
+  const stamp = document.getElementById('wxStamp');
+  stamp.textContent = '🔄 갱신 중…';
+  const base = `https://api.open-meteo.com/v1/forecast?latitude=${WX_LAT}&longitude=${WX_LON}&timezone=Asia%2FManila&start_date=2026-07-18&end_date=2026-07-24`;
+  try {
+    const [main, prob] = await Promise.all([
+      fetch(`${base}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&models=ecmwf_ifs025,gfs_seamless,icon_seamless`).then(r => r.json()),
+      fetch(`${base}&daily=precipitation_probability_max&models=gfs_seamless`).then(r => r.json()).catch(() => null)
+    ]);
+    if (!main || !main.daily || !main.daily.time) throw new Error('bad response');
+    wxLastOk = Date.now();
+    const t = new Date();
+    wxRender(main, prob, `✅ 마지막 갱신 ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`);
+    try { localStorage.setItem(WX_CACHE_KEY, JSON.stringify({ts: Date.now(), main, prob})); } catch(e) {}
+  } catch(err) {
+    const cached = JSON.parse(localStorage.getItem(WX_CACHE_KEY) || 'null');
+    if (cached && cached.main) {
+      const t = new Date(cached.ts);
+      wxRender(cached.main, cached.prob, `⚠️ 갱신 실패 — ${t.getMonth()+1}/${t.getDate()} ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')} 저장본 표시 중`);
+    } else {
+      document.getElementById('wxBody').innerHTML =
+        '<tr><td colspan="4" class="wx-loading">📡 예보를 불러오지 못했어요. 인터넷 연결 확인 후 새로고침을 눌러주세요.<br>급하면 아래 3사 바로가기 버튼으로 확인!</td></tr>';
+      stamp.textContent = '⚠️ 갱신 실패';
+    }
+  }
+}
+document.getElementById('wxReload').addEventListener('click', loadWeather);
+document.querySelector('#tabs button[data-t="p-weather"]').addEventListener('click', () => {
+  if (Date.now() - wxLastOk > 30*60*1000) loadWeather();
+});
+loadWeather();
 
 // 체크리스트 (localStorage)
 const KEY = 'bohol2026-check';
