@@ -76,6 +76,14 @@
   }
   nav.tabs button.on { background:var(--teal); border-color:var(--teal); color:#fff; }
 
+  .plan-toggle { display:flex; gap:8px; margin-bottom:8px; }
+  .plan-toggle button {
+    flex:1; border:1.5px solid var(--teal); background:var(--card); color:var(--teal-dark);
+    border-radius:12px; padding:10px 8px; font-size:.92rem; font-weight:800; cursor:pointer;
+  }
+  .plan-toggle button.on { background:var(--teal); color:#fff; }
+  .plan-note { font-size:.84rem; color:var(--ink-soft); margin:0 2px 14px; }
+
   main { max-width: 720px; margin:0 auto; padding: 18px 16px 60px; }
   section.panel { display:none; }
   section.panel.on { display:block; animation: fade .25s ease; }
@@ -232,6 +240,12 @@
 <!-- ═══════════ 일정표 ═══════════ -->
 <section class="panel" id="p-days">
 
+  <div class="plan-toggle">
+    <button id="btnPlanA" class="on">🅰️ 알찬 일정 (기본)</button>
+    <button id="btnPlanB">🅱️ 여유 일정</button>
+  </div>
+  <p class="plan-note">🅰️ 위시리스트 전부 소화 (새벽 기상 2회) · 🅱️ 육상투어·고래상어를 빼고 푹 쉬는 버전 (새벽 기상 1회) — 현지 컨디션 보고 골라도 OK!</p>
+
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 1</span><span class="ddate">7/18 (토)</span>
       <span class="dtitle">인천 출발 ✈️ 밤 비행</span></div>
@@ -242,6 +256,8 @@
       <li><span class="tm">21:00</span><span class="tx"><b>LJ43 출발 ✈️ (비행 4시간 45분)</b><span class="sub">기내식 없는 노선이니 간식 챙기기 · 기내에서 눈 붙이기 (도착이 새벽!)</span></span></li>
     </ul>
   </div>
+
+  <div id="planA">
 
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 2</span><span class="ddate">7/19 (일)</span>
@@ -311,9 +327,83 @@
     </ul>
   </div>
 
+  </div><!-- /planA -->
+
+  <div id="planB" hidden>
+
   <div class="card">
-    <h3><span class="em">🌦️</span> 우천 대비 플랜 B</h3>
-    <p class="muted">7월은 우기지만 하루종일 오는 비는 드물고 오후 스콜 위주. 해상 일정(호핑 7/21 · 고래상어 7/22 · 나팔링 7/23)이 연달아 있으니, 기상 악화 예보가 보이면 보자무싸와 상의해 육상투어(7/20)와 순서를 바꾸는 게 플랜 B. 반딧불·동굴은 비와 무관하게 진행 가능. 투어 예약 시 우천 취소/변경 규정을 꼭 확인!</p>
+    <h3><span class="em">🅱️</span> 여유 일정은 이렇게 달라요</h3>
+    <p class="muted">빠지는 것: <b>육상투어 풀코스</b>(초콜릿힐·ATV·안경원숭이·로복강)와 <b>고래상어</b>(새벽 5:30 출발). 대신 새벽 기상이 호핑 하루뿐이고, 리조트·비치에서 쉬는 시간이 확 늘어요. 바다거북·정어리떼·반딧불·동굴은 그대로! 현지에서 컨디션 좋으면 빠진 투어를 하루 전 보자무싸에 추가 문의하는 것도 가능해요.</p>
+  </div>
+
+  <div class="card day">
+    <div class="dhead"><span class="dnum">DAY 2</span><span class="ddate">7/19 (일)</span>
+      <span class="dtitle">새벽 도착 → 완전 회복의 날 🌴</span></div>
+    <ul class="tl">
+      <li><span class="tm">00:45</span><span class="tx"><b>보홀 팡라오공항 도착</b><span class="sub">이트래블 QR 제시 → 입국심사 → 수하물</span></span></li>
+      <li><span class="tm">02:00</span><span class="tx"><b>알로나 파위칸 체크인, 취침</b><span class="sub">공항 픽업 or 그랩/택시 (공항에서 10~15분)</span></span></li>
+      <li><span class="tm">10:00</span><span class="tx"><b>늦잠 후 브런치</b><span class="sub">오늘은 무조건 푹 쉬는 날</span></span></li>
+      <li><span class="tm">12:00</span><span class="tx"><b>파위칸 체크아웃 → 헤난에 짐 맡기기</b></span></li>
+      <li><span class="tm">15:00</span><span class="tx"><b>헤난 리조트 체크인 → 수영장</b></span></li>
+      <li><span class="tm">16:30</span><span class="tx"><b>알로나 비치 산책 & 수영</b><span class="sub">환전·유심 확인, 동네 파악</span></span></li>
+      <li><span class="tm">18:30</span><span class="tx"><b>저녁: 알로나비치 맛집</b><span class="sub">레드크랩 or 씨푸드 (맛집 탭 참고)</span></span></li>
+    </ul>
+  </div>
+
+  <div class="card day">
+    <div class="dhead"><span class="dnum">DAY 3</span><span class="ddate">7/20 (월)</span>
+      <span class="dtitle">히낙다난 동굴 + 비치 데이 🕳️🏖️</span></div>
+    <ul class="tl">
+      <li><span class="tm">오전</span><span class="tx"><b>조식 후 리조트 수영장 느긋하게</b></span></li>
+      <li><span class="tm">13:30</span><span class="tx"><b>히낙다난 동굴 🕳️</b><span class="sub">다우이스, 차 15~20분 · 동굴 속 천연 수영장</span></span></li>
+      <li><span class="tm">15:30</span><span class="tx"><b>두말루안 비치</b><span class="sub">팡라오에서 물빛 제일 예쁜 비치 (차 15분)</span></span></li>
+      <li><span class="tm">18:30</span><span class="tx"><b>저녁 식사</b><span class="sub">내일 새벽 출발이니 일찍 자기!</span></span></li>
+    </ul>
+  </div>
+
+  <div class="card day">
+    <div class="dhead"><span class="dnum">DAY 4</span><span class="ddate">7/21 (화)</span>
+      <span class="dtitle">발리카삭 호핑투어 🐢 (하이라이트!)</span></div>
+    <ul class="tl">
+      <li><span class="tm">06:00</span><span class="tx"><b>기상, 숙소 픽업</b><span class="sub">보자무싸 써니 오션 호핑 (조인) — 유일한 새벽 기상!</span></span></li>
+      <li><span class="tm">오전</span><span class="tx"><b>발리카삭 바다거북 스노클링</b><span class="sub">바다거북 · 열대어 · 산호 군락 / 고프로 촬영 서비스</span></span></li>
+      <li><span class="tm">점심</span><span class="tx"><b>방카 위 점심 식사</b><span class="sub">투어 포함</span></span></li>
+      <li><span class="tm">~14:00</span><span class="tx"><b>버진아일랜드 → 복귀</b><span class="sub">썰물 때 드러나는 모래섬</span></span></li>
+      <li><span class="tm">16:00</span><span class="tx"><b>마사지 1시간 & 휴식</b><span class="sub">호핑 후 마사지가 국룰!</span></span></li>
+      <li><span class="tm">18:30</span><span class="tx"><b>저녁 식사</b></span></li>
+    </ul>
+  </div>
+
+  <div class="card day">
+    <div class="dhead"><span class="dnum">DAY 5</span><span class="ddate">7/22 (수)</span>
+      <span class="dtitle">늘어지게 쉬는 날 + 반딧불 ✨</span></div>
+    <ul class="tl">
+      <li><span class="tm">오전</span><span class="tx"><b>늦잠 + 리조트 수영장/비치</b><span class="sub">밀린 피로 여기서 다 풀기</span></span></li>
+      <li><span class="tm">오후</span><span class="tx"><b>카페 & 기념품 쇼핑</b><span class="sub">드라이망고 · 칼라만시 제품 등</span></span></li>
+      <li><span class="tm">17:30</span><span class="tx"><b>아바탄강 반딧불투어 출발</b><span class="sub">크리스마스트리 같은 반딧불 군락 (석식 포함 여부 확인 · 모기기피제!)</span></span></li>
+      <li><span class="tm">21:00</span><span class="tx"><b>숙소 복귀</b></span></li>
+    </ul>
+  </div>
+
+  <div class="card day">
+    <div class="dhead"><span class="dnum">DAY 6</span><span class="ddate">7/23 (목) → 7/24 (금)</span>
+      <span class="dtitle">나팔링 정어리떼 🐟 → 새벽 귀국 🛫</span></div>
+    <ul class="tl">
+      <li><span class="tm">09:00</span><span class="tx"><b>조식 든든히 & 짐 정리</b></span></li>
+      <li><span class="tm">11:00</span><span class="tx"><b>헤난 체크아웃 & 짐 보관</b><span class="sub">레이트 체크아웃 가능하면 최대한 활용</span></span></li>
+      <li><span class="tm">12:30</span><span class="tx"><b>나팔링 포인트 정어리떼 스노클링</b><span class="sub">팡라오 북쪽, 차 20~25분 · 지치면 알로나비치 물놀이로 대체</span></span></li>
+      <li><span class="tm">16:00</span><span class="tx"><b>마사지로 마무리 & 샤워</b><span class="sub">비행 전 개운하게 — 샤워 가능한 스파로</span></span></li>
+      <li><span class="tm">19:00</span><span class="tx"><b>저녁 식사</b><span class="sub">마지막 만찬은 근사하게!</span></span></li>
+      <li><span class="tm">22:30</span><span class="tx"><b>공항으로 이동</b><span class="sub">그랩/픽업 예약 필수 (심야)</span></span></li>
+      <li><span class="tm">01:45</span><span class="tx"><b>LJ44 출발 → 07:25 인천 도착</b><span class="sub">7/24 (금) 아침 귀국 🏠</span></span></li>
+    </ul>
+  </div>
+
+  </div><!-- /planB -->
+
+  <div class="card">
+    <h3><span class="em">🌦️</span> 우천 대비 팁</h3>
+    <p class="muted">7월은 우기지만 하루종일 오는 비는 드물고 오후 스콜 위주. 해상 일정이 뒤쪽에 몰려 있으니, 기상 악화 예보가 보이면 보자무싸와 상의해 육상투어와 순서를 바꾸는 게 안전. 반딧불·동굴은 비와 무관하게 진행 가능. 투어 예약 시 우천 취소/변경 규정을 꼭 확인!</p>
   </div>
 
 </section>
@@ -328,7 +418,7 @@
   </div>
 
   <div class="card">
-    <h3><span class="em">🐢</span> 써니 오션 호핑투어 (발리카삭) — Day 3</h3>
+    <h3><span class="em">🐢</span> 써니 오션 호핑투어 (발리카삭) — 7/21 (화)</h3>
     <span class="chip">보자무싸 대표투어</span><span class="chip">조인</span><span class="chip">강력추천</span>
     <table class="simple">
       <tr><th>가격</th><td class="price">약 8.3만원/인 (외부몰 기준, 카페 문의)</td></tr>
@@ -339,17 +429,46 @@
   </div>
 
   <div class="card">
-    <h3><span class="em">🐒</span> 육상투어 (컨트리사이드) — Day 4</h3>
-    <span class="chip">필수코스</span>
+    <h3><span class="em">🐒</span> 육상투어 + ATV — 7/20 (월)</h3>
+    <span class="chip">필수코스</span><span class="chip">플랜A</span>
     <table class="simple">
-      <tr><th>코스</th><td>안경원숭이 → 로복강 크루즈 점심 → 초콜릿힐 → 맨메이드 포레스트 (+나비농장 등)</td></tr>
-      <tr><th>가격</th><td class="price">조인 약 5~6만원/인 선 (카페 확인)</td></tr>
-      <tr><th>팁</th><td>반딧불투어와 묶으면 이동 효율 UP. 마지막 날 공항드랍 연계 상품도 있음</td></tr>
+      <tr><th>코스</th><td>안경원숭이 → 로복강 런치크루즈 → 초콜릿힐 + ATV → 맨메이드 포레스트</td></tr>
+      <tr><th>가격</th><td class="price">조인 약 5~6만원/인 + ATV 옵션 약 1,000~2,000페소 (카페 확인)</td></tr>
+      <tr><th>팁</th><td>ATV는 초콜릿힐에서 진행 — 예약 시 ATV 포함 여부 꼭 확인. 편한 운동화, 흙먼지 대비 마스크 있으면 좋음</td></tr>
     </table>
   </div>
 
   <div class="card">
-    <h3><span class="em">✨</span> 아바탄강 반딧불투어 — Day 4 저녁</h3>
+    <h3><span class="em">🦈</span> 릴라 고래상어 투어 — 7/22 (수) 새벽</h3>
+    <span class="chip">플랜A</span><span class="chip">새벽 5:30 출발</span>
+    <table class="simple">
+      <tr><th>코스</th><td>알로나 → 릴라(차 약 1시간) → 고래상어 스노클링(물속 약 30분) → 10시 반경 복귀</td></tr>
+      <tr><th>가격</th><td class="price">조인 기준 1인 5만원 안팎 (카페 확인)</td></tr>
+      <tr><th>팁</th><td>세부 오슬롭까지 안 가도 보홀 안에서 고래상어를 만나는 코스. 멀미 있으면 미리 약 복용</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="em">🐟</span> 나팔링 정어리떼 스노클링 — 7/23 (목)</h3>
+    <span class="chip">마지막날</span>
+    <table class="simple">
+      <tr><th>코스</th><td>알로나에서 차 20~25분 (팡라오 북쪽) · 절벽 아래 수만 마리 정어리 소용돌이</td></tr>
+      <tr><th>가격</th><td class="price">입장료 + 장비 대여 저렴한 편 · 픽드랍 포함 상품도 있음 (카페 확인)</td></tr>
+      <tr><th>팁</th><td>구명조끼 착용하면 수영 못해도 OK. 아쿠아슈즈 필수 (바위 지형)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="em">🕳️</span> 히낙다난 동굴 — 7/19 (일) 오후</h3>
+    <table class="simple">
+      <tr><th>코스</th><td>다우이스, 알로나에서 차 15~20분 · 종유석 동굴 속 천연 수영장</td></tr>
+      <tr><th>가격</th><td class="price">입장+수영 약 125페소/인 (현장 결제)</td></tr>
+      <tr><th>팁</th><td>수영복 미리 입고 가면 편함. 관람만 하면 30분, 수영까지 1시간</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3><span class="em">✨</span> 아바탄강 반딧불투어 — 7/22 (수) 저녁</h3>
     <table class="simple">
       <tr><th>내용</th><td>방카 타고 강을 따라가며 반딧불 트리 감상</td></tr>
       <tr><th>가격</th><td class="price">약 3~4만원/인 (조인, 석식 포함 여부 확인)</td></tr>
@@ -358,14 +477,12 @@
   </div>
 
   <div class="card">
-    <h3><span class="em">🤿</span> Day 5 선택 옵션 (고2 딸 취향 반영해서 결정!)</h3>
+    <h3><span class="em">💆</span> 마사지 & 기타</h3>
     <table class="simple">
-      <tr><th>씨워킹/헬멧다이빙</th><td>수영 못해도 바닷속 체험 가능</td></tr>
-      <tr><th>ATV (초콜릿힐)</th><td>스릴파 취향, 육상투어와 별개 예약</td></tr>
-      <tr><th>스파/마사지</th><td>가족 단체 마사지 — 1시간 2~3만원 선</td></tr>
-      <tr><th>히낙다난 동굴</th><td>동굴 속 천연 수영장 (육상투어에 추가 가능한 경우 있음)</td></tr>
+      <tr><th>마사지/스파</th><td>1시간 2~3만원 선 · 7/21 호핑 후 + 7/23 출국 전(샤워 겸) 두 번 추천</td></tr>
+      <tr><th>두말루안 비치</th><td>팡라오 물빛 최고 비치 — 여유 일정(🅱️)이나 컨디션 조절용</td></tr>
     </table>
-    <div class="warn">📌 모든 투어는 <b>보자무싸 카페에서 일정·가격 확인 후 예약</b>하세요. 위 가격은 외부 판매몰 기준 참고가입니다. 출발 전 미리 예약하면 원하는 날짜 확보에 유리!</div>
+    <div class="warn">📌 모든 투어는 <b>보자무싸 카페에서 일정·가격 확인 후 예약</b>하세요. 위 가격은 참고가입니다. 성수기(7월)라 <b>출발 전 미리 예약</b>해야 원하는 날짜를 잡기 좋아요. 🅱️ 여유 일정 선택 시 육상투어·고래상어는 예약하지 않으면 됩니다.</div>
   </div>
 
 </section>
@@ -446,8 +563,10 @@
 
   <div class="card clgroup">
     <h4>📞 예약 · 확인</h4>
-    <label class="ck"><input type="checkbox" data-k="rv1"><span class="txt">보자무싸 호핑투어 예약 (Day 3, 7/20)</span></label>
-    <label class="ck"><input type="checkbox" data-k="rv2"><span class="txt">보자무싸 육상+반딧불투어 예약 (Day 4, 7/21)</span></label>
+    <label class="ck"><input type="checkbox" data-k="rv1"><span class="txt">보자무싸 발리카삭 호핑투어 예약 (7/21 화)</span></label>
+    <label class="ck"><input type="checkbox" data-k="rv2"><span class="txt">보자무싸 육상투어+ATV 예약 (7/20 월)<span class="sub">🅱️ 여유 일정 선택 시 생략</span></span></label>
+    <label class="ck"><input type="checkbox" data-k="rv6"><span class="txt">릴라 고래상어 투어 예약 (7/22 수 새벽)<span class="sub">🅱️ 여유 일정 선택 시 생략</span></span></label>
+    <label class="ck"><input type="checkbox" data-k="rv7"><span class="txt">아바탄강 반딧불투어 예약 (7/22 수 저녁)</span></label>
     <label class="ck"><input type="checkbox" data-k="rv3"><span class="txt">알로나 파위칸에 새벽 2시경 도착 예정 미리 연락<span class="sub">+63 919 414 0619 · alona_pawikan@yahoo.com</span></span></label>
     <label class="ck"><input type="checkbox" data-k="rv4"><span class="txt">공항→숙소 새벽 픽업 수배 (숙소 or 보자무싸 문의)</span></label>
     <label class="ck"><input type="checkbox" data-k="rv5"><span class="txt">마지막 날 심야 공항 이동편 예약</span></label>
@@ -520,6 +639,19 @@ tabs.forEach(b => b.addEventListener('click', () => {
   document.getElementById(b.dataset.t).classList.add('on');
   window.scrollTo({top:0, behavior:'smooth'});
 }));
+
+// 플랜 A/B 전환
+const pA = document.getElementById('btnPlanA'), pB = document.getElementById('btnPlanB');
+function setPlan(p){
+  document.getElementById('planA').hidden = (p === 'B');
+  document.getElementById('planB').hidden = (p !== 'B');
+  pA.classList.toggle('on', p !== 'B');
+  pB.classList.toggle('on', p === 'B');
+  localStorage.setItem('bohol2026-plan', p);
+}
+pA.addEventListener('click', () => setPlan('A'));
+pB.addEventListener('click', () => setPlan('B'));
+setPlan(localStorage.getItem('bohol2026-plan') || 'A');
 
 // D-day
 (function(){
