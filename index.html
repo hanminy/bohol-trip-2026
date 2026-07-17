@@ -176,6 +176,29 @@
   table.simple th { color:var(--ink-soft); font-size:.8rem; font-weight:700; }
   .price { font-weight:800; color:var(--coral); white-space:nowrap; }
 
+  /* activities */
+  .card.act { padding:0; overflow:hidden; }
+  .act-img { position:relative; }
+  .act-img img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+  .act-img .when {
+    position:absolute; left:12px; bottom:12px; background:rgba(0,0,0,.6); color:#fff;
+    border-radius:999px; padding:4px 14px; font-size:.8rem; font-weight:800;
+  }
+  .act-body { padding:16px 18px 18px; }
+  .btnrow { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .btnrow .btn { margin-top:0; padding:9px 14px; font-size:.85rem; }
+  .btn.ghost { background:transparent; color:var(--teal) !important; border:1.5px solid var(--teal); }
+  .book { background:var(--chip); border-radius:12px; padding:12px 14px; margin-top:12px; font-size:.9rem; }
+  .book .bt { display:block; color:var(--teal-dark); font-weight:800; margin-bottom:6px; }
+  .book ol { margin:0 0 0 18px; padding:0; }
+  .book ol li { margin:5px 0; }
+  .strip { margin:12px 0 0; }
+  .strip img { width:100%; max-height:180px; object-fit:cover; border-radius:12px; display:block; }
+  .strip figcaption { font-size:.78rem; color:var(--ink-soft); margin-top:4px; text-align:center; }
+  details.credits { margin:4px 2px 0; font-size:.78rem; color:var(--ink-soft); }
+  details.credits summary { cursor:pointer; font-weight:700; }
+  details.credits a { font-weight:600; }
+
   a { color:var(--teal); font-weight:700; word-break:break-all; }
   .btn {
     display:inline-block; background:var(--teal); color:#fff !important; border-radius:12px;
@@ -450,78 +473,300 @@
 <section class="panel" id="p-act">
 
   <div class="card">
-    <h3><span class="em">🧡</span> 보자무싸 (한인 현지 여행사)</h3>
-    <p class="muted">네이버 카페에서 예약 문의 · 카페에 투어 상세/공지/후기 다수</p>
-    <a class="btn" href="https://cafe.naver.com/cheepboracay" target="_blank">보자무싸 네이버 카페 열기 →</a>
+    <h3><span class="em">🚨</span> 예약, 오늘 안에 이렇게! (출발 D-1)</h3>
+    <p class="muted" style="margin-bottom:10px">7월 성수기엔 인기 투어부터 마감돼요. 특히 <b>발리카삭은 일일 입장 인원 제한</b>이 있어 가장 먼저 확정!</p>
+    <div class="book" style="margin-top:0">
+      <span class="bt">✅ 오늘 할 일 3가지</span>
+      <ol>
+        <li><b>보자무싸 카페 → 카톡 상담</b>으로 4개 투어(7/20 육상+ATV · 7/21 호핑 · 7/22 고래상어 · 7/22 반딧불)를 <b>한 번에</b> 문의 — 한 업체로 묶으면 픽업 시간 조율이 쉽고 묶음 할인 여지도 있어요</li>
+        <li>마감된 투어는 <b>마이리얼트립·KKday·클룩</b>에서 즉시 결제로 대체 (모바일 바우처, 환불 규정 명확)</li>
+        <li>그래도 못 잡았으면 도착 후 <b>헤난 로비·알로나 거리 투어데스크</b>에서 전날 예약 — 단, 성수기라 만석 위험</li>
+      </ol>
+    </div>
+    <table class="simple" style="margin-top:12px">
+      <tr><th>채널</th><th>장점</th><th>예약 방법</th></tr>
+      <tr><td><b>보자무싸</b><br><span class="muted">한인 현지 여행사</span></td><td>조인 가성비 · 한국어 상담 · 후기 많음</td><td>네이버 카페 가입 → 예약 양식 작성 → 카톡 확정</td></tr>
+      <tr><td><b>마이리얼트립<br>KKday · 클룩</b></td><td>즉시 확정 · 카드 결제 · 취소 규정 명시</td><td>앱에서 날짜 선택·결제 → 바우처 → 메신저로 픽업 안내</td></tr>
+      <tr><td><b>현장 데스크</b></td><td>남은 자리 흥정 가능</td><td>알로나 거리·리조트 로비에서 전날 예약</td></tr>
+    </table>
+    <div class="btnrow">
+      <a class="btn" href="https://cafe.naver.com/cheepboracay" target="_blank">🧡 보자무싸 카페</a>
+      <a class="btn ghost" href="https://www.myrealtrip.com/promotions/bohol_touractivity" target="_blank">마이리얼트립 보홀</a>
+      <a class="btn ghost" href="https://www.klook.com/ko/search/result/?query=%EB%B3%B4%ED%99%80" target="_blank">클룩 보홀 검색</a>
+    </div>
+  </div>
+
+  <!-- DAY 2 : 히낙다난 -->
+  <div class="card act">
+    <div class="act-img"><img src="images/cave.jpg" alt="히낙다난 동굴 속 에메랄드빛 천연 수영장" loading="lazy"><span class="when">DAY 2 · 7/19 (일) 오후</span></div>
+    <div class="act-body">
+      <h3><span class="em">🕳️</span> 히낙다난 동굴</h3>
+      <span class="chip">🅰️🅱️ 공통</span><span class="chip">예약 불필요</span><span class="chip">수영 가능</span>
+      <p class="muted">종유석이 매달린 석회동굴 아래 에메랄드빛 천연 수영장. 뚫린 천장으로 햇살이 쏟아지는 인생샷 스팟이에요.</p>
+      <table class="simple">
+        <tr><th>위치</th><td>다우이스 — 알로나에서 차 15~20분</td></tr>
+        <tr><th>요금</th><td class="price">입장 50 + 수영 75 = 125페소/인 (≈3,200원) · 주차 20페소 · 현금</td></tr>
+        <tr><th>시간</th><td>08:00~17:00 · 관람만 30분, 수영까지 1시간</td></tr>
+      </table>
+      <div class="book"><span class="bt">📝 예약 어떻게?</span>
+        예약 없이 <b>그랩/트라이시클 타고 가서 현장 매표</b>하면 끝. 탈의시설이 변변찮으니 <b>수영복을 입고 출발</b>하세요. 오전엔 단체 관광객이 몰려서 지금 일정(13:30)처럼 오후가 한적해요. 아쿠아슈즈·방수팩 챙기기.
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Hinagdanan+Cave" target="_blank">📍 구글지도</a>
+        <a class="btn ghost" href="https://www.google.com/maps/dir/?api=1&origin=Henann+Resort+Alona+Beach&destination=Hinagdanan+Cave&travelmode=driving" target="_blank">🚕 헤난에서 길찾기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 : 육상투어 묶음 -->
+  <div class="card">
+    <h3><span class="em">🚐</span> DAY 3 · 육상투어 풀코스 + ATV — 7/20 (월)</h3>
+    <span class="chip">🅰️ 플랜A</span><span class="chip">08:30 픽업 → 17:30 복귀</span><span class="chip">총 이동 ~150km</span>
+    <p class="muted" style="margin:8px 0 0">아래 네 곳(안경원숭이 → 로복강 → 초콜릿힐+ATV → 맨메이드 포레스트)을 하루에 도는 코스예요.</p>
+    <table class="simple" style="margin-top:8px">
+      <tr><th>가격</th><td class="price">조인 5~6만원/인 · 단독 밴은 팀당 2,500~3,500페소 + 입장료 별도</td></tr>
+      <tr><th>현장 결제 입장료</th><td>초콜릿힐 100페소 · 로복강 런치크루즈 850페소 안팎 · 안경원숭이 100~150페소 · ATV 900~1,100페소/대</td></tr>
+    </table>
+    <div class="book"><span class="bt">📝 예약 어떻게?</span>
+      <ol>
+        <li><b>1순위 — 보자무싸 조인:</b> 카톡으로 <b>“ATV 포함 여부”</b>와 <b>“로복강 점심 포함 여부”</b>를 꼭 확인하고 예약. 호핑과 같은 업체라 픽업 조율이 편해요.</li>
+        <li><b>2순위 — 몽키트래블/마이리얼트립 단독 밴:</b> 가족 3인이 원하는 순서로 도는 프라이빗 투어. 입장료는 대부분 현장 결제.</li>
+        <li><b>준비물:</b> ATV에서 흙탕물이 튀어요 — <b>여벌 옷 필수</b>, 운동화, 흙먼지용 마스크, 입장료 낼 현금.</li>
+      </ol>
+    </div>
+    <div class="btnrow">
+      <a class="btn" href="https://cafe.naver.com/cheepboracay" target="_blank">🧡 보자무싸 문의</a>
+      <a class="btn ghost" href="https://www.monkeytravel.com/ph/ko/tour/bohol/product/product_detail.php?product_id=2000001186" target="_blank">몽키트래블 상품 보기</a>
+    </div>
+  </div>
+
+  <div class="card act">
+    <div class="act-img"><img src="images/tarsier.jpg" alt="나뭇가지에 매달린 필리핀 안경원숭이(타르시어)" loading="lazy"><span class="when">DAY 3 오전</span></div>
+    <div class="act-body">
+      <h3><span class="em">🐒</span> 안경원숭이(타르시어) 보호구역</h3>
+      <span class="chip">🅰️ 육상투어 코스</span>
+      <p class="muted">손바닥만 한 세계 최소 영장류. 야행성이라 낮엔 나뭇가지에서 꾸벅꾸벅 졸아요 — 가이드 따라 조용히 관찰!</p>
+      <table class="simple">
+        <tr><th>팁</th><td>플래시·셀카봉·큰 소리 금지 (스트레스에 매우 약한 동물), 만지기 금지 · 관람 30~40분</td></tr>
+      </table>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Bohol+Tarsier+Conservation+Area" target="_blank">📍 구글지도</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card act">
+    <div class="act-img"><img src="images/loboc.jpg" alt="로복강 런치크루즈 뗏목 레스토랑" loading="lazy"><span class="when">DAY 3 점심</span></div>
+    <div class="act-body">
+      <h3><span class="em">🛶</span> 로복강 런치크루즈</h3>
+      <span class="chip">🅰️ 육상투어 코스</span>
+      <p class="muted">뗏목 레스토랑을 타고 야자수 정글 강을 미끄러지며 필리핀 가정식 뷔페 + 라이브 음악. 약 1시간.</p>
+      <table class="simple">
+        <tr><th>요금</th><td class="price">크루즈+뷔페 850페소 안팎/인 (≈21,000원) — 투어 포함 여부 확인</td></tr>
+      </table>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Loboc+River+Cruise" target="_blank">📍 구글지도</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card act">
+    <div class="act-img"><img src="images/chocolate.jpg" alt="초콜릿힐 전망대에서 본 언덕 풍경" loading="lazy"><span class="when">DAY 3 오후</span></div>
+    <div class="act-body">
+      <h3><span class="em">🍫</span> 초콜릿힐 전망대 + ATV</h3>
+      <span class="chip">🅰️ 육상투어 코스</span><span class="chip">딸 최애 예감</span>
+      <p class="muted">봉긋한 언덕 1,200여 개가 지평선까지! 전망대는 계단 214개를 올라요. ATV를 타고 언덕 사이 흙길을 달리는 게 하이라이트.</p>
+      <table class="simple">
+        <tr><th>요금</th><td class="price">전망대 100페소/인 · ATV 900~1,100페소/대 (30분~1시간, 현장 결제)</td></tr>
+        <tr><th>팁</th><td>미성년자는 2인승(보호자 운전) 가능 여부를 예약 때 확인 · 우천 뒤엔 진흙 튐 — 여벌 옷!</td></tr>
+      </table>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Chocolate+Hills+Complex+Carmen+Bohol" target="_blank">📍 구글지도</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card act">
+    <div class="act-img"><img src="images/forest.jpg" alt="빌라르 맨메이드 포레스트 마호가니 숲길" loading="lazy"><span class="when">DAY 3 귀갓길</span></div>
+    <div class="act-body">
+      <h3><span class="em">🌳</span> 맨메이드 포레스트</h3>
+      <span class="chip">🅰️ 육상투어 코스</span><span class="chip">무료</span>
+      <p class="muted">도로 양쪽을 터널처럼 뒤덮은 마호가니 인공숲 — 보홀 대표 인생샷 명소. 차 세우고 10~15분 사진 타임.</p>
+      <table class="simple">
+        <tr><th>팁</th><td>찻길 위에서 찍는 거라 차량 조심! 이끼 낀 갓길 미끄럼 주의</td></tr>
+      </table>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Bilar+Man-Made+Forest" target="_blank">📍 구글지도</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 4 : 발리카삭 -->
+  <div class="card act">
+    <div class="act-img"><img src="images/turtle.jpg" alt="발리카삭 앞바다 바다거북" loading="lazy"><span class="when">DAY 4 · 7/21 (화) 06:00 픽업</span></div>
+    <div class="act-body">
+      <h3><span class="em">🐢</span> 발리카삭 호핑투어 (하이라이트!)</h3>
+      <span class="chip">🅰️🅱️ 공통</span><span class="chip">보자무싸 써니 오션</span><span class="chip">강력추천</span>
+      <p class="muted">바다거북·열대어·산호 군락 스노클링 후 썰물에만 드러나는 버진아일랜드 모래섬까지. 우리 여행의 메인 이벤트!</p>
+      <table class="simple">
+        <tr><th>일정</th><td>06:00 픽업 → 발리카삭 스노클링 → 방카 위 점심 → 버진아일랜드 → ~14:00 복귀</td></tr>
+        <tr><th>가격</th><td class="price">조인 약 8.3만원/인 — 점심·장비·픽드랍·전담 스탭 포함</td></tr>
+        <tr><th>촬영</th><td>스탭 고프로 촬영 — SD카드 구매 시 원본 전체 제공</td></tr>
+      </table>
+      <figure class="strip"><img src="images/virgin.jpg" alt="버진아일랜드 샌드바" loading="lazy"><figcaption>썰물 때만 드러나는 버진아일랜드 샌드바</figcaption></figure>
+      <div class="book"><span class="bt">📝 예약 어떻게?</span>
+        <ol>
+          <li><b>1순위 — 보자무싸 “써니 오션 호핑”(계획대로):</b> 카페 가입 → 예약글 양식 작성 → 카톡으로 날짜·인원·숙소(헤난) 전달 → 확정. <b>발리카삭은 일일 입장 인원 제한이 있어 오늘 확정이 안전!</b></li>
+          <li><b>대안 — KKday 고프로 포함 상품 / 마이리얼트립 실속형:</b> 카드 결제 즉시 확정이 필요할 때.</li>
+          <li><b>팁:</b> 픽업 30분 전 멀미약 복용(방카!), 래시가드·리프세이프 선크림, 전날 픽업 시간 재확인 문자.</li>
+        </ol>
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Balicasag+Island" target="_blank">📍 구글지도</a>
+        <a class="btn ghost" href="https://cafe.naver.com/cheepboracay" target="_blank">🧡 보자무싸</a>
+        <a class="btn ghost" href="https://www.kkday.com/ko/product/138140-bohol-island-hopping-tour-virgin-island-balicasag-island" target="_blank">KKday 상품</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 5 : 고래상어 -->
+  <div class="card act">
+    <div class="act-img"><img src="images/whaleshark.jpg" alt="수면 근처의 고래상어와 스노클러" loading="lazy"><span class="when">DAY 5 · 7/22 (수) 05:30 픽업</span></div>
+    <div class="act-body">
+      <h3><span class="em">🦈</span> 릴라 고래상어 스노클링</h3>
+      <span class="chip">🅰️ 플랜A</span><span class="chip">새벽 출발</span>
+      <p class="muted">세계에서 가장 큰 물고기 옆에서 수영! 세부 오슬롭까지 안 가고 보홀 릴라에서 만나는 코스예요. 물속 체험 약 30분.</p>
+      <table class="simple">
+        <tr><th>일정</th><td>05:30 픽업 → 릴라(차 1시간) → 스노클링 30분 → 10:30 복귀</td></tr>
+        <tr><th>가격</th><td class="price">조인 5만원 안팎/인 — 픽드랍·입장료·장비 포함</td></tr>
+        <tr><th>규칙</th><td><b>선크림 바르고 입수 금지</b>(래시가드로 커버) · 플래시 금지 · 4~5m 거리 유지 · 만지기 금지</td></tr>
+      </table>
+      <div class="book"><span class="bt">📝 예약 어떻게?</span>
+        <ol>
+          <li><b>1순위 — 보자무싸에 반딧불과 세트로 문의:</b> 같은 날(7/22) 새벽+저녁이라 한 업체로 묶으면 픽업 동선이 깔끔해요.</li>
+          <li><b>대안 — 마이리얼트립 “릴라 고래상어”:</b> 조인/단독·수중촬영 옵션 상품이 다양하고, <b>전날 오전 9시 전 취소 시 100% 환불</b> 상품도 있어요 (규정 확인).</li>
+          <li><b>팁:</b> 멀미약, 수건, 갈아입을 옷. 복귀 후 리조트에서 낮잠으로 새벽 기상 보충!</li>
+        </ol>
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Whale+Shark+Watching+Lila+Bohol" target="_blank">📍 구글지도</a>
+        <a class="btn ghost" href="https://www.myrealtrip.com/offers/140735" target="_blank">마이리얼트립 상품</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 5 저녁 : 반딧불 -->
+  <div class="card act">
+    <div class="act-img"><img src="images/firefly.jpg" alt="밤하늘 아래 반딧불 불빛 궤적" loading="lazy"><span class="when">DAY 5 · 7/22 (수) 17:30 출발</span></div>
+    <div class="act-body">
+      <h3><span class="em">✨</span> 아바탄강 반딧불투어</h3>
+      <span class="chip">🅰️🅱️ 공통</span><span class="chip">저녁 투어</span>
+      <p class="muted">방카를 타고 맹그로브 강을 거슬러 올라가면 나무 한 그루가 통째로 크리스마스트리처럼 반짝여요.</p>
+      <table class="simple">
+        <tr><th>일정</th><td>17:30 픽업 → 아바탄강(차 50분) → 보트 반딧불 감상 → 21:00 복귀</td></tr>
+        <tr><th>가격</th><td class="price">조인 2.8~4만원/인 · 단독 4.3~7.6만원/인 (인원수에 따라)</td></tr>
+        <tr><th>준비물</th><td><b>모기기피제 필수</b> · 긴팔·긴바지 · 어두울수록 잘 보여요</td></tr>
+      </table>
+      <div class="book"><span class="bt">📝 예약 어떻게?</span>
+        <ol>
+          <li><b>1순위 — 고래상어와 같은 업체(보자무싸)로 묶어 예약</b> — 같은 날이라 픽업 시간 조율이 한 번에 끝나요.</li>
+          <li><b>대안 — 마이리얼트립 조인 상품(2.8만원대~):</b> <b>석식 포함 여부</b>가 상품마다 달라요 — 미포함이면 출발 전 이른 저녁!</li>
+          <li><b>알뜰:</b> 현지 직접 예약 시 500~600페소+왕복 차량이지만, 밤 이동이라 가족 여행은 픽드랍 포함 상품 추천.</li>
+        </ol>
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Abatan+River+Firefly+Watching" target="_blank">📍 구글지도</a>
+        <a class="btn ghost" href="https://experiences.myrealtrip.com/products/3852422" target="_blank">마이리얼트립 조인</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6 : 나팔링 -->
+  <div class="card act">
+    <div class="act-img"><img src="images/sardines.jpg" alt="산호초 위로 소용돌이치는 정어리떼" loading="lazy"><span class="when">DAY 6 · 7/23 (목) 12:30</span></div>
+    <div class="act-body">
+      <h3><span class="em">🐟</span> 나팔링 정어리떼 스노클링</h3>
+      <span class="chip">🅰️🅱️ 공통</span><span class="chip">마지막날</span>
+      <p class="muted">절벽 아래로 들어가면 수만 마리 정어리가 머리 위에서 은빛 소용돌이를 만들어요. 구명조끼 입으면 수영 못해도 OK!</p>
+      <table class="simple">
+        <tr><th>위치</th><td>팡라오 북쪽 — 알로나에서 차 20~25분</td></tr>
+        <tr><th>자유 방문</th><td class="price">입장·환경세·가이드 약 300페소/인 (≈7,500원) + 장비 대여 100~150페소</td></tr>
+        <tr><th>투어 상품</th><td class="price">픽드랍·장비·입장료 포함 6.5만원~/인</td></tr>
+      </table>
+      <div class="book"><span class="bt">📝 예약 어떻게?</span>
+        <ol>
+          <li><b>추천 — 픽드랍 포함 단독투어:</b> 이날은 <b>체크아웃 날</b>이라 “짐 보관 + 팡라오 전역 픽업” 조건이 붙은 상품(투어비스·마이리얼트립)이 동선상 최고. 공항 드랍 옵션이 있으면 금상첨화.</li>
+          <li><b>알뜰 — 트라이시클 대절:</b> 왕복+대기 300~500페소로 흥정 후 현장에서 입장료·장비 결제. 현지 가이드 동행이 의무예요.</li>
+          <li><b>팁:</b> 절벽 계단으로 입수하니 <b>아쿠아슈즈 필수</b> · 오전~정오가 시야 좋음 · 지치면 두말루안 비치로 대체.</li>
+        </ol>
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Napaling+Point+Panglao" target="_blank">📍 구글지도</a>
+        <a class="btn ghost" href="https://www.myrealtrip.com/offers/140732" target="_blank">마이리얼트립 상품</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 보너스 -->
+  <div class="card act">
+    <div class="act-img"><img src="images/alona.jpg" alt="알로나 비치 해변과 방카 보트" loading="lazy"><span class="when">매일 · 숙소 앞</span></div>
+    <div class="act-body">
+      <h3><span class="em">🏖️</span> 알로나 비치</h3>
+      <span class="chip">🅰️🅱️ 공통</span><span class="chip">무료</span>
+      <p class="muted">헤난 리조트 바로 앞. 아침 산책, 해질녘 선셋, 저녁엔 라이브 음악 바가 줄지어요. 호핑 방카도 여기서 출발!</p>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Alona+Beach+Panglao" target="_blank">📍 구글지도</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card act">
+    <div class="act-img"><img src="images/dumaluan.jpg" alt="두말루안 비치의 하얀 모래사장" loading="lazy"><span class="when">🅱️ 플랜B · 컨디션 조절용</span></div>
+    <div class="act-body">
+      <h3><span class="em">🌊</span> 두말루안 비치</h3>
+      <span class="chip">🅱️ 플랜B</span><span class="chip">대체 코스</span>
+      <p class="muted">팡라오에서 물빛이 제일 예쁘다는 비치. 알로나보다 한적하고 수심이 완만해 가족 물놀이에 딱이에요. 차 15분.</p>
+      <table class="simple">
+        <tr><th>요금</th><td class="price">입장료 소액(수십 페소) — 리조트 구역 따라 상이</td></tr>
+      </table>
+      <div class="btnrow">
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Dumaluan+Beach+Panglao" target="_blank">📍 구글지도</a>
+      </div>
+    </div>
   </div>
 
   <div class="card">
-    <h3><span class="em">🐢</span> 써니 오션 호핑투어 (발리카삭) — 7/21 (화)</h3>
-    <span class="chip">보자무싸 대표투어</span><span class="chip">조인</span><span class="chip">강력추천</span>
+    <h3><span class="em">💆</span> 마사지 & 스파 — 7/21 오후 · 7/23 저녁</h3>
     <table class="simple">
-      <tr><th>가격</th><td class="price">약 8.3만원/인 (외부몰 기준, 카페 문의)</td></tr>
-      <tr><th>포함</th><td>대형 방카(화장실 有) · 점심 · 스노클링 장비 · 전담 스탭 · 고프로 촬영(SD카드 구매 시)</td></tr>
-      <tr><th>코스</th><td>발리카삭 바다거북 스노클링 → 버진아일랜드</td></tr>
-      <tr><th>특징</th><td>한국인 매니저 동행, 흔들림 적은 빅방카</td></tr>
+      <tr><th>시세</th><td class="price">로드샵 1시간 전신 400~600페소 (≈1~1.5만원) + 팁 50~100페소</td></tr>
+      <tr><th>방법</th><td>워크인 가능하지만 저녁 피크(19~21시)엔 대기 — <b>낮에 지나가며 미리 예약</b>해두는 게 요령</td></tr>
+      <tr><th>7/23 필수 확인</th><td>출국 전 마지막 마사지는 <b>샤워 가능한 스파</b>로! (밤 비행 전 개운하게) · 리조트 스파는 비싸지만 시설 최고</td></tr>
     </table>
+    <div class="btnrow">
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=spa+massage+Alona+Beach+Panglao" target="_blank">📍 알로나 주변 스파 검색</a>
+    </div>
   </div>
 
-  <div class="card">
-    <h3><span class="em">🐒</span> 육상투어 + ATV — 7/20 (월)</h3>
-    <span class="chip">필수코스</span><span class="chip">플랜A</span>
-    <table class="simple">
-      <tr><th>코스</th><td>안경원숭이 → 로복강 런치크루즈 → 초콜릿힐 + ATV → 맨메이드 포레스트</td></tr>
-      <tr><th>가격</th><td class="price">조인 약 5~6만원/인 + ATV 옵션 약 1,000~2,000페소 (카페 확인)</td></tr>
-      <tr><th>팁</th><td>ATV는 초콜릿힐에서 진행 — 예약 시 ATV 포함 여부 꼭 확인. 편한 운동화, 흙먼지 대비 마스크 있으면 좋음</td></tr>
-    </table>
-  </div>
+  <div class="warn">📌 가격은 2026년 7월 기준 참고가예요. 조인투어는 최소 인원 미달 시 날짜가 바뀔 수 있으니 <b>예약 확정 문자·바우처를 꼭 보관</b>하세요. 🅱️ 여유 일정 선택 시 육상투어·고래상어는 예약하지 않으면 됩니다.</div>
 
-  <div class="card">
-    <h3><span class="em">🦈</span> 릴라 고래상어 투어 — 7/22 (수) 새벽</h3>
-    <span class="chip">플랜A</span><span class="chip">새벽 5:30 출발</span>
-    <table class="simple">
-      <tr><th>코스</th><td>알로나 → 릴라(차 약 1시간) → 고래상어 스노클링(물속 약 30분) → 10시 반경 복귀</td></tr>
-      <tr><th>가격</th><td class="price">조인 기준 1인 5만원 안팎 (카페 확인)</td></tr>
-      <tr><th>팁</th><td>세부 오슬롭까지 안 가도 보홀 안에서 고래상어를 만나는 코스. 멀미 있으면 미리 약 복용</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h3><span class="em">🐟</span> 나팔링 정어리떼 스노클링 — 7/23 (목)</h3>
-    <span class="chip">마지막날</span>
-    <table class="simple">
-      <tr><th>코스</th><td>알로나에서 차 20~25분 (팡라오 북쪽) · 절벽 아래 수만 마리 정어리 소용돌이</td></tr>
-      <tr><th>가격</th><td class="price">입장료 + 장비 대여 저렴한 편 · 픽드랍 포함 상품도 있음 (카페 확인)</td></tr>
-      <tr><th>팁</th><td>구명조끼 착용하면 수영 못해도 OK. 아쿠아슈즈 필수 (바위 지형)</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h3><span class="em">🕳️</span> 히낙다난 동굴 — 7/19 (일) 오후</h3>
-    <table class="simple">
-      <tr><th>코스</th><td>다우이스, 알로나에서 차 15~20분 · 종유석 동굴 속 천연 수영장</td></tr>
-      <tr><th>가격</th><td class="price">입장+수영 약 125페소/인 (현장 결제)</td></tr>
-      <tr><th>팁</th><td>수영복 미리 입고 가면 편함. 관람만 하면 30분, 수영까지 1시간</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h3><span class="em">✨</span> 아바탄강 반딧불투어 — 7/22 (수) 저녁</h3>
-    <table class="simple">
-      <tr><th>내용</th><td>방카 타고 강을 따라가며 반딧불 트리 감상</td></tr>
-      <tr><th>가격</th><td class="price">약 3~4만원/인 (조인, 석식 포함 여부 확인)</td></tr>
-      <tr><th>팁</th><td>어두울수록 잘 보임 · 모기기피제 필수</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <h3><span class="em">💆</span> 마사지 & 기타</h3>
-    <table class="simple">
-      <tr><th>마사지/스파</th><td>1시간 2~3만원 선 · 7/21 호핑 후 + 7/23 출국 전(샤워 겸) 두 번 추천</td></tr>
-      <tr><th>두말루안 비치</th><td>팡라오 물빛 최고 비치 — 여유 일정(🅱️)이나 컨디션 조절용</td></tr>
-    </table>
-    <div class="warn">📌 모든 투어는 <b>보자무싸 카페에서 일정·가격 확인 후 예약</b>하세요. 위 가격은 참고가입니다. 성수기(7월)라 <b>출발 전 미리 예약</b>해야 원하는 날짜를 잡기 좋아요. 🅱️ 여유 일정 선택 시 육상투어·고래상어는 예약하지 않으면 됩니다.</div>
-  </div>
+  <details class="credits">
+    <summary>📷 사진 출처 (Wikimedia Commons, 자유 라이선스)</summary>
+    <p>
+      <a href="https://commons.wikimedia.org/wiki/File:Snorkeling_in_Hinagdanan_Cave.jpg" target="_blank">히낙다난 동굴</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Philippine_tarsier_(Carlito_syrichta_fraterculus)_Bohol.jpg" target="_blank">타르시어</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Loboc_river_cruise_Bohol_2017.jpg" target="_blank">로복강</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Chocolate_Hills_overview.JPG" target="_blank">초콜릿힐</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Bohol_Bilar_Man_Made_Forest.jpg" target="_blank">맨메이드 포레스트</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Green_Sea_turtle_swimming_by.jpg" target="_blank">바다거북</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:%ED%95%84%EB%A6%AC%ED%95%80_%EB%B3%B4%ED%99%80_%EB%B2%84%EC%A7%84_%EC%95%84%EC%9D%BC%EB%9E%9C%EB%93%9C_(Bohol_Virgin_Islands)_-_panoramio.jpg" target="_blank">버진아일랜드</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Oslob_Whale_shark.jpg" target="_blank">고래상어</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Sardine_run_over_seafloor_in_Moalboal_03.jpg" target="_blank">정어리떼</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Luciola_cruciata_%E3%82%B2%E3%83%B3%E3%82%B8%E3%83%9C%E3%82%BF%E3%83%AB_-_panoramio.jpg" target="_blank">반딧불</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Alona_Beach,_Panglao_-_panoramio.jpg" target="_blank">알로나 비치</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Dumaluan_beach.jpg" target="_blank">두말루안 비치</a>
+      — 고래상어·정어리떼·반딧불 사진은 같은 체험의 대표 이미지예요 (촬영지: 오슬롭·모알보알·일본).
+    </p>
+  </details>
 
 </section>
 
