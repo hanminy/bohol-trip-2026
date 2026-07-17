@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0e7c7b">
 <title>보홀 가족여행 🏝️ 2026.7.18 – 7.24</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root {
     --teal: #0e7c7b;
@@ -83,6 +85,28 @@
   }
   .plan-toggle button.on { background:var(--teal); color:#fff; }
   .plan-note { font-size:.84rem; color:var(--ink-soft); margin:0 2px 14px; }
+
+  .day-btns { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:10px; scrollbar-width:none; }
+  .day-btns::-webkit-scrollbar { display:none; }
+  .day-btns button {
+    flex:0 0 auto; border:1px solid var(--line); background:var(--card); color:var(--ink);
+    border-radius:999px; padding:7px 14px; font-size:.85rem; font-weight:700; cursor:pointer; white-space:nowrap;
+  }
+  .day-btns button.on { background:var(--coral); border-color:var(--coral); color:#fff; }
+  #map { height: 62vw; max-height:420px; min-height:280px; border-radius:16px; border:1px solid var(--line); }
+  .legs { margin-top:12px; }
+  .legs li { display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:.9rem; align-items:baseline; }
+  .legs li:last-child { border-bottom:none; }
+  .legs .no {
+    flex:0 0 22px; height:22px; border-radius:50%; background:var(--teal); color:#fff;
+    font-size:.75rem; font-weight:800; display:flex; align-items:center; justify-content:center; align-self:center;
+  }
+  .legs .dist { margin-left:auto; color:var(--coral); font-weight:800; font-size:.83rem; white-space:nowrap; }
+  .num-marker {
+    background:var(--coral); color:#fff; border-radius:50%; width:26px; height:26px;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.8rem;
+    border:2px solid #fff; box-shadow:0 1px 5px rgba(0,0,0,.4);
+  }
 
   main { max-width: 720px; margin:0 auto; padding: 18px 16px 60px; }
   section.panel { display:none; }
@@ -172,6 +196,7 @@
 <nav class="tabs" id="tabs">
   <button data-t="p-flight" class="on">✈️ 항공·숙소</button>
   <button data-t="p-days">📅 일정표</button>
+  <button data-t="p-map">🗺️ 지도</button>
   <button data-t="p-act">🤿 액티비티</button>
   <button data-t="p-food">🍽️ 맛집</button>
   <button data-t="p-check">✅ 체크리스트</button>
@@ -404,6 +429,19 @@
   <div class="card">
     <h3><span class="em">🌦️</span> 우천 대비 팁</h3>
     <p class="muted">7월은 우기지만 하루종일 오는 비는 드물고 오후 스콜 위주. 해상 일정이 뒤쪽에 몰려 있으니, 기상 악화 예보가 보이면 보자무싸와 상의해 육상투어와 순서를 바꾸는 게 안전. 반딧불·동굴은 비와 무관하게 진행 가능. 투어 예약 시 우천 취소/변경 규정을 꼭 확인!</p>
+  </div>
+
+</section>
+
+<!-- ═══════════ 지도 ═══════════ -->
+<section class="panel" id="p-map">
+
+  <div class="card">
+    <h3><span class="em">🗺️</span> 일자별 이동 동선 (플랜 A 기준)</h3>
+    <div class="day-btns" id="mapDays"></div>
+    <div id="map"></div>
+    <ul class="legs" id="mapLegs" style="list-style:none"></ul>
+    <p class="muted" style="margin-top:10px">거리·시간은 도로 기준 대략값이에요. 지도를 손가락으로 확대/이동해 보세요. 🚤 표시는 방카(보트) 이동.</p>
   </div>
 
 </section>
@@ -665,6 +703,96 @@ setPlan(localStorage.getItem('bohol2026-plan') || 'A');
   else if (days === 0) el.textContent = '🎉 오늘 출발!';
   else el.textContent = `출발까지 D-${days}`;
 })();
+
+// ═══ 일자별 동선 지도 ═══
+const P = {
+  airport:  {name:'팡라오공항',        ll:[9.5735, 123.7705]},
+  pawikan:  {name:'알로나 파위칸',      ll:[9.5570, 123.7680]},
+  henann:   {name:'헤난 리조트',        ll:[9.5482, 123.7745]},
+  hinag:    {name:'히낙다난 동굴',      ll:[9.6230, 123.7862]},
+  tarsier:  {name:'안경원숭이 보호구역', ll:[9.6957, 123.9418]},
+  loboc:    {name:'로복강 크루즈',      ll:[9.6360, 124.0329]},
+  choco:    {name:'초콜릿힐+ATV',      ll:[9.8288, 124.1385]},
+  forest:   {name:'맨메이드 포레스트',  ll:[9.6885, 124.1076]},
+  balicasag:{name:'발리카삭 섬',        ll:[9.5170, 123.6850]},
+  virgin:   {name:'버진아일랜드',       ll:[9.5560, 123.7050]},
+  lila:     {name:'릴라 (고래상어)',    ll:[9.5960, 124.1010]},
+  abatan:   {name:'아바탄강 (반딧불)',  ll:[9.6890, 123.8730]},
+  napaling: {name:'나팔링 포인트',      ll:[9.6035, 123.7445]}
+};
+const ROUTES = {
+  d2: { label:'7/19 (일)', title:'도착 · 히낙다난 · 알로나',
+    stops:['airport','pawikan','henann','hinag'],
+    lines:[{pts:['airport','pawikan','henann','hinag']}],
+    legs:[
+      ['공항 → 파위칸','3km · 차 10분'],
+      ['파위칸 → 헤난 리조트','4km · 차 10분'],
+      ['헤난 → 히낙다난 동굴 (왕복)','10km · 차 20분']
+    ]},
+  d3: { label:'7/20 (월)', title:'육상투어 한 바퀴 (~150km)',
+    stops:['henann','tarsier','loboc','choco','forest'],
+    lines:[{pts:['henann','tarsier','loboc','choco','forest','henann']}],
+    legs:[
+      ['헤난 → 안경원숭이 보호구역','35km · 차 1시간 10분'],
+      ['안경원숭이 → 로복강 크루즈','15km · 차 30분'],
+      ['로복강 → 초콜릿힐+ATV','30km · 차 50분'],
+      ['초콜릿힐 → 맨메이드 포레스트','12km · 차 20분'],
+      ['맨메이드 → 헤난 복귀','55km · 차 1시간 30분']
+    ]},
+  d4: { label:'7/21 (화)', title:'발리카삭 호핑 (방카)',
+    stops:['henann','balicasag','virgin'],
+    lines:[{pts:['henann','balicasag','virgin','henann'], dash:true}],
+    legs:[
+      ['알로나비치 → 발리카삭','🚤 방카 45분'],
+      ['발리카삭 → 버진아일랜드','🚤 방카 30분'],
+      ['버진아일랜드 → 알로나 복귀','🚤 방카 30분']
+    ]},
+  d5: { label:'7/22 (수)', title:'고래상어(새벽) + 반딧불(저녁)',
+    stops:['henann','lila','abatan'],
+    lines:[{pts:['henann','lila']},{pts:['henann','abatan'], dash:true}],
+    legs:[
+      ['헤난 → 릴라 고래상어 (왕복)','38km · 차 1시간'],
+      ['헤난 → 아바탄강 반딧불 (왕복·저녁)','30km · 차 50분']
+    ]},
+  d6: { label:'7/23 (목)', title:'나팔링 · 마사지 · 공항',
+    stops:['henann','napaling','airport'],
+    lines:[{pts:['henann','napaling']},{pts:['henann','airport'], dash:true}],
+    legs:[
+      ['헤난 → 나팔링 포인트 (왕복)','9km · 차 25분'],
+      ['헤난 → 공항 (밤 22:30)','6km · 차 15분']
+    ]}
+};
+let theMap = null, layerGroup = null;
+function showRoute(key){
+  const r = ROUTES[key];
+  document.querySelectorAll('#mapDays button').forEach(b => b.classList.toggle('on', b.dataset.d === key));
+  layerGroup.clearLayers();
+  r.lines.forEach(ln => {
+    L.polyline(ln.pts.map(k => P[k].ll), {color:'#ff6b57', weight:4, opacity:.85, dashArray: ln.dash ? '8 8' : null}).addTo(layerGroup);
+  });
+  const bounds = [];
+  r.stops.forEach((k, i) => {
+    bounds.push(P[k].ll);
+    L.marker(P[k].ll, {icon: L.divIcon({className:'', html:`<div class="num-marker">${i+1}</div>`, iconSize:[26,26], iconAnchor:[13,13]})})
+      .bindPopup(`<b>${P[k].name}</b>`).addTo(layerGroup);
+  });
+  theMap.fitBounds(bounds, {padding:[36,36]});
+  document.getElementById('mapLegs').innerHTML =
+    `<li style="font-weight:800; color:var(--teal-dark)">${r.label} — ${r.title}</li>` +
+    r.legs.map((l, i) => `<li><span class="no">${i+1}</span><span>${l[0]}</span><span class="dist">${l[1]}</span></li>`).join('');
+}
+function initMap(){
+  if (theMap) { theMap.invalidateSize(); return; }
+  theMap = L.map('map', {scrollWheelZoom:false});
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {maxZoom:18, attribution:'&copy; OpenStreetMap'}).addTo(theMap);
+  layerGroup = L.layerGroup().addTo(theMap);
+  const db = document.getElementById('mapDays');
+  db.innerHTML = Object.keys(ROUTES).map(k => `<button data-d="${k}">${ROUTES[k].label}</button>`).join('');
+  db.querySelectorAll('button').forEach(b => b.addEventListener('click', () => showRoute(b.dataset.d)));
+  showRoute('d2');
+}
+document.querySelector('#tabs button[data-t="p-map"]').addEventListener('click', () => setTimeout(initMap, 60));
 
 // 체크리스트 (localStorage)
 const KEY = 'bohol2026-check';
