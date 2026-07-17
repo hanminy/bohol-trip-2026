@@ -86,14 +86,7 @@
   .plan-toggle button.on { background:var(--teal); color:#fff; }
   .plan-note { font-size:.84rem; color:var(--ink-soft); margin:0 2px 14px; }
 
-  .day-btns { display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:10px; scrollbar-width:none; }
-  .day-btns::-webkit-scrollbar { display:none; }
-  .day-btns button {
-    flex:0 0 auto; border:1px solid var(--line); background:var(--card); color:var(--ink);
-    border-radius:999px; padding:7px 14px; font-size:.85rem; font-weight:700; cursor:pointer; white-space:nowrap;
-  }
-  .day-btns button.on { background:var(--coral); border-color:var(--coral); color:#fff; }
-  #map { height: 62vw; max-height:420px; min-height:280px; border-radius:16px; border:1px solid var(--line); }
+  .map-box { height: 58vw; max-height:360px; min-height:240px; border-radius:16px; border:1px solid var(--line); }
   .legs { margin-top:12px; }
   .legs li { display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line); font-size:.9rem; align-items:baseline; }
   .legs li:last-child { border-bottom:none; }
@@ -159,6 +152,16 @@
   ul.tl .tx b { font-weight:700; }
   ul.tl .tx .sub { display:block; color:var(--ink-soft); font-size:.83rem; margin-top:1px; }
 
+  /* 일정표 → 상세 이동 링크 */
+  a.golink {
+    display:inline-block; background:var(--chip); color:var(--teal-dark) !important;
+    border-radius:999px; padding:2px 10px; font-size:.74rem; font-weight:700;
+    text-decoration:none; margin:5px 6px 0 0; white-space:nowrap; word-break:keep-all;
+  }
+  .dlinks { display:flex; flex-wrap:wrap; margin:2px 0 4px; }
+  .hl { animation:hl 1.8s ease; }
+  @keyframes hl { 0%,55% { box-shadow:0 0 0 3px var(--coral); } 100% { box-shadow:0 0 0 0 rgba(255,107,87,0); } }
+
   /* checklist */
   .clgroup h4 { margin:4px 0 8px; font-size:.95rem; color:var(--teal-dark); }
   label.ck {
@@ -205,21 +208,22 @@
     border:1.5px solid var(--teal); background:var(--card); color:var(--teal-dark);
     border-radius:999px; padding:6px 14px; font-weight:800; font-size:.83rem; cursor:pointer; white-space:nowrap;
   }
-  .wx-wrap { overflow-x:auto; }
-  table.wx { width:100%; min-width:470px; border-collapse:collapse; font-size:.85rem; }
-  table.wx th, table.wx td { padding:8px 4px; border-bottom:1px solid var(--line); text-align:center; vertical-align:top; }
-  table.wx thead th { font-size:.82rem; color:var(--teal-dark); }
-  table.wx thead th span { display:block; font-size:.68rem; color:var(--ink-soft); font-weight:600; }
-  table.wx td.wx-day { text-align:left; white-space:nowrap; font-weight:800; font-size:.83rem; }
-  table.wx td.wx-day .sub { display:block; font-weight:600; font-size:.72rem; color:var(--ink-soft); }
-  table.wx td.wx-day .pr { display:block; font-weight:700; font-size:.72rem; color:var(--teal); }
-  .wx-cell .wi { display:block; font-size:1.25rem; line-height:1.3; }
-  .wx-cell .tt { display:block; font-weight:800; }
+  .wx-block { padding:10px 0; border-bottom:1px solid var(--line); }
+  .wx-block:last-child { border-bottom:none; padding-bottom:0; }
+  .wx-block.wx-past { opacity:.45; }
+  .wx-block.wx-today { background:var(--chip); border-radius:12px; padding:10px; margin:4px -4px; border-bottom-color:transparent; }
+  .wx-dhead { display:flex; align-items:baseline; gap:8px; font-weight:800; font-size:.92rem; margin-bottom:7px; flex-wrap:wrap; }
+  .wx-dhead .tdy { background:var(--coral); color:#fff; border-radius:6px; padding:0 7px; font-size:.7rem; align-self:center; }
+  .wx-dhead .sub { font-weight:600; font-size:.78rem; color:var(--ink-soft); }
+  .wx-dhead .pr { margin-left:auto; font-weight:700; font-size:.78rem; color:var(--teal); }
+  .wx-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  .wx-cell { background:var(--sand); border:1px solid var(--line); border-radius:10px; padding:8px 4px; text-align:center; }
+  .wx-cell .mdl { display:block; font-size:.66rem; font-weight:700; color:var(--ink-soft); letter-spacing:.3px; }
+  .wx-cell .wi { display:block; font-size:1.3rem; line-height:1.4; }
+  .wx-cell .tt { display:block; font-weight:800; font-size:.9rem; }
   .wx-cell .tt i { font-style:normal; color:var(--ink-soft); font-weight:600; }
-  .wx-cell .rn { display:block; font-size:.7rem; color:var(--ink-soft); }
-  tr.wx-today td { background:var(--chip); }
-  tr.wx-past { opacity:.45; }
-  .wx-loading { text-align:center; color:var(--ink-soft); padding:18px 4px !important; }
+  .wx-cell .rn { display:block; font-size:.68rem; color:var(--ink-soft); }
+  .wx-loading { text-align:center; color:var(--ink-soft); padding:18px 4px; }
 
   a { color:var(--teal); font-weight:700; word-break:break-all; }
   .btn {
@@ -239,8 +243,8 @@
 </header>
 
 <nav class="tabs" id="tabs">
-  <button data-t="p-flight" class="on">✈️ 항공·숙소</button>
-  <button data-t="p-days">📅 일정표</button>
+  <button data-t="p-days" class="on">📅 일정표</button>
+  <button data-t="p-flight">✈️ 항공·숙소</button>
   <button data-t="p-weather">🌦️ 날씨</button>
   <button data-t="p-map">🗺️ 지도</button>
   <button data-t="p-act">🤿 액티비티</button>
@@ -252,9 +256,9 @@
 <main>
 
 <!-- ═══════════ 항공 · 숙소 ═══════════ -->
-<section class="panel on" id="p-flight">
+<section class="panel" id="p-flight">
 
-  <div class="card">
+  <div class="card" id="fl-out">
     <h3><span class="em">🛫</span> 가는 편 — 진에어 LJ43</h3>
     <div class="flight">
       <div class="pt"><div class="t">21:00</div><div class="c">인천 (ICN)</div><div class="d">7/18 (토)</div></div>
@@ -265,7 +269,7 @@
     <div class="warn">⏰ <b>15:00 집 출발 → 17:00 공항 도착</b> (출발 4시간 전 여유) · 성수기 주말 저녁이라 출국장 혼잡 예상 · 보홀 노선 무료 기내식 없음 → 공항에서 저녁 해결</div>
   </div>
 
-  <div class="card">
+  <div class="card" id="fl-in">
     <h3><span class="em">🛬</span> 오는 편 — 진에어 LJ44</h3>
     <div class="flight">
       <div class="pt"><div class="t">01:45</div><div class="c">보홀·팡라오 (TAG)</div><div class="d">7/24 (금)</div></div>
@@ -276,7 +280,7 @@
     <div class="warn">🌙 <b>7/23 (목) 밤 22:30~23:00 공항 도착</b> 목표. 새벽 비행이므로 마지막 날 낮 일정은 여유롭게, 밤에 공항 이동</div>
   </div>
 
-  <div class="card">
+  <div class="card" id="stay-pawikan">
     <h3><span class="em">🏨</span> 숙소 ① — 알로나 파위칸 (도착 첫날)</h3>
     <p class="muted">Alona Pawikan · 아고다 예약 확정 (결제 완료)</p>
     <table class="simple">
@@ -291,7 +295,7 @@
     <div class="warn">🌙 00:45 도착 → 입국심사·짐 찾기 약 1시간 → <b>새벽 2시경 체크인 예상.</b> 레이트 체크인 지원 숙소지만, 새벽 도착 예정임을 미리 연락해두면 안심!</div>
   </div>
 
-  <div class="card">
+  <div class="card" id="stay-henann">
     <h3><span class="em">🏖️</span> 숙소 ② — 헤난 리조트 알로나 비치 (메인)</h3>
     <p class="muted">Henann Resort Alona Beach · 아고다 예약 확정 (결제 완료) · 알로나 비치 바로 앞 대형 리조트</p>
     <table class="simple">
@@ -309,22 +313,24 @@
 </section>
 
 <!-- ═══════════ 일정표 ═══════════ -->
-<section class="panel" id="p-days">
+<section class="panel on" id="p-days">
 
   <div class="plan-toggle">
     <button id="btnPlanA" class="on">🅰️ 알찬 일정 (기본)</button>
     <button id="btnPlanB">🅱️ 여유 일정</button>
   </div>
   <p class="plan-note">🅰️ 위시리스트 전부 소화 (새벽 기상 2회) · 🅱️ 육상투어·고래상어를 빼고 푹 쉬는 버전 (새벽 기상 1회) — 현지 컨디션 보고 골라도 OK! 발리카삭만 고정하고 고래상어·반딧불은 현지 날씨 보고 결정하는 절충 운용도 좋아요 (예약 시 전날 취소 가능 여부 확인).</p>
+  <div class="dlinks" style="margin:-4px 2px 14px"><a class="golink" data-go="p-act:act-booking">🚨 예약 가이드</a><a class="golink" data-go="p-check:ck-book">✅ 예약 체크리스트</a><a class="golink" data-go="p-flight">✈️ 항공·숙소</a><a class="golink" data-go="p-map">🗺️ 전체 동선 지도</a><a class="golink" data-go="p-weather">🌦️ 날씨</a></div>
 
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 1</span><span class="ddate">7/18 (토)</span>
       <span class="dtitle">인천 출발 ✈️ 밤 비행</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-flight:fl-out">✈️ 가는 편 상세</a><a class="golink" data-go="p-weather:wx-2026-07-18">🌦️ 이날 날씨</a><a class="golink" data-go="p-check">✅ 체크리스트</a></div>
     <ul class="tl">
-      <li><span class="tm">15:00</span><span class="tx"><b>집 출발</b><span class="sub">여권·이트래블 QR·바우처 최종 확인</span></span></li>
+      <li><span class="tm">15:00</span><span class="tx"><b>집 출발</b><span class="sub">여권·이트래블 QR·바우처 최종 확인</span><a class="golink" data-go="p-check">✅ 최종 체크리스트</a></span></li>
       <li><span class="tm">17:00</span><span class="tx"><b>인천공항 도착, 체크인</b><span class="sub">진에어 카운터 · 위탁수하물 부치기</span></span></li>
       <li><span class="tm">18:30</span><span class="tx"><b>출국심사 후 저녁 식사</b><span class="sub">보홀 노선은 무료 기내식 미제공 — 공항에서 든든하게 먹고 타요!</span></span></li>
-      <li><span class="tm">21:00</span><span class="tx"><b>LJ43 출발 ✈️ (비행 4시간 45분)</b><span class="sub">기내식 없는 노선이니 간식 챙기기 · 기내에서 눈 붙이기 (도착이 새벽!)</span></span></li>
+      <li><span class="tm">21:00</span><span class="tx"><b>LJ43 출발 ✈️ (비행 4시간 45분)</b><span class="sub">기내식 없는 노선이니 간식 챙기기 · 기내에서 눈 붙이기 (도착이 새벽!)</span><a class="golink" data-go="p-flight:fl-out">✈️ 항공편 정보</a></span></li>
     </ul>
   </div>
 
@@ -333,53 +339,57 @@
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 2</span><span class="ddate">7/19 (일)</span>
       <span class="dtitle">새벽 도착 → 히낙다난 동굴 → 알로나비치 🌴</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d2">🗺️ 이날 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-19">🌦️ 이날 날씨</a></div>
     <ul class="tl">
-      <li><span class="tm">00:45</span><span class="tx"><b>보홀 팡라오공항 도착</b><span class="sub">이트래블 QR 제시 → 입국심사 → 수하물</span></span></li>
-      <li><span class="tm">02:00</span><span class="tx"><b>알로나 파위칸 체크인, 취침</b><span class="sub">공항 픽업 or 그랩/택시 (공항에서 10~15분)</span></span></li>
+      <li><span class="tm">00:45</span><span class="tx"><b>보홀 팡라오공항 도착</b><span class="sub">이트래블 QR 제시 → 입국심사 → 수하물</span><a class="golink" data-go="p-tips:tip-arrival">🛂 입국 절차</a></span></li>
+      <li><span class="tm">02:00</span><span class="tx"><b>알로나 파위칸 체크인, 취침</b><span class="sub">공항 픽업 or 그랩/택시 (공항에서 10~15분)</span><a class="golink" data-go="p-flight:stay-pawikan">🏨 숙소 정보</a></span></li>
       <li><span class="tm">10:00</span><span class="tx"><b>늦잠 후 브런치</b><span class="sub">푹 자기! 오후부터 진짜 시작</span></span></li>
       <li><span class="tm">12:00</span><span class="tx"><b>파위칸 체크아웃 → 헤난에 짐 맡기기</b><span class="sub">같은 팡라오, 차로 5~10분</span></span></li>
-      <li><span class="tm">13:30</span><span class="tx"><b>히낙다난 동굴 🕳️</b><span class="sub">다우이스, 차 15~20분 · 동굴 속 천연 수영장 (수영 가능, 입장료 별도)</span></span></li>
-      <li><span class="tm">15:30</span><span class="tx"><b>헤난 리조트 체크인</b></span></li>
-      <li><span class="tm">16:30</span><span class="tx"><b>알로나 비치 산책 & 수영</b><span class="sub">리조트가 비치 바로 앞! 환전·유심 확인, 동네 파악</span></span></li>
-      <li><span class="tm">18:30</span><span class="tx"><b>저녁: 알로나비치 맛집</b><span class="sub">레드크랩 or 씨푸드 (맛집 탭 참고) · 내일 새벽 6시 호핑 픽업 — 일찍 자기!</span></span></li>
+      <li><span class="tm">13:30</span><span class="tx"><b>히낙다난 동굴 🕳️</b><span class="sub">다우이스, 차 15~20분 · 동굴 속 천연 수영장 (수영 가능, 입장료 별도)</span><a class="golink" data-go="p-act:act-hinagdanan">🕳️ 상세·가는 법</a></span></li>
+      <li><span class="tm">15:30</span><span class="tx"><b>헤난 리조트 체크인</b><a class="golink" data-go="p-flight:stay-henann">🏨 숙소 정보</a></span></li>
+      <li><span class="tm">16:30</span><span class="tx"><b>알로나 비치 산책 & 수영</b><span class="sub">리조트가 비치 바로 앞! 환전·유심 확인, 동네 파악</span><a class="golink" data-go="p-act:act-alona">🏖️ 알로나 비치</a></span></li>
+      <li><span class="tm">18:30</span><span class="tx"><b>저녁: 알로나비치 맛집</b><span class="sub">레드크랩 or 씨푸드 (맛집 탭 참고) · 내일 새벽 6시 호핑 픽업 — 일찍 자기!</span><a class="golink" data-go="p-food">🍽️ 맛집 목록</a></span></li>
     </ul>
   </div>
 
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 3</span><span class="ddate">7/20 (월)</span>
       <span class="dtitle">발리카삭 호핑투어 🐢 (하이라이트!)</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d3">🗺️ 이날 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-20">🌦️ 이날 날씨</a><a class="golink" data-go="p-act:act-balicasag">🐢 투어 상세·예약</a></div>
     <ul class="tl">
-      <li><span class="tm">06:00</span><span class="tx"><b>기상, 숙소 픽업</b><span class="sub">보자무싸 써니 오션 호핑 (조인) · 만족도 최고 투어라 앞쪽 날짜에 배치 — 기상 취소 시 7/21로 순연</span></span></li>
+      <li><span class="tm">06:00</span><span class="tx"><b>기상, 숙소 픽업</b><span class="sub">보자무싸 써니 오션 호핑 (조인) · 만족도 최고 투어라 앞쪽 날짜에 배치 — 기상 취소 시 7/21로 순연</span><a class="golink" data-go="p-act:act-balicasag">🐢 투어 상세·예약</a></span></li>
       <li><span class="tm">오전</span><span class="tx"><b>발리카삭 바다거북 스노클링</b><span class="sub">바다거북 · 열대어 · 산호 군락 / 고프로 촬영 서비스</span></span></li>
       <li><span class="tm">점심</span><span class="tx"><b>방카 위 점심 식사</b><span class="sub">투어 포함</span></span></li>
       <li><span class="tm">~14:00</span><span class="tx"><b>버진아일랜드 → 복귀</b><span class="sub">썰물 때 드러나는 모래섬</span></span></li>
-      <li><span class="tm">16:00</span><span class="tx"><b>마사지 1시간 & 휴식</b><span class="sub">호핑 후 마사지가 국룰!</span></span></li>
-      <li><span class="tm">18:30</span><span class="tx"><b>저녁 식사</b></span></li>
+      <li><span class="tm">16:00</span><span class="tx"><b>마사지 1시간 & 휴식</b><span class="sub">호핑 후 마사지가 국룰!</span><a class="golink" data-go="p-act:act-massage">💆 스파 정보</a></span></li>
+      <li><span class="tm">18:30</span><span class="tx"><b>저녁 식사</b><a class="golink" data-go="p-food">🍽️ 맛집 목록</a></span></li>
     </ul>
   </div>
 
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 4</span><span class="ddate">7/21 (화)</span>
       <span class="dtitle">육상투어 풀코스 + ATV 🐒🏍️</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d4">🗺️ 이날 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-21">🌦️ 이날 날씨</a><a class="golink" data-go="p-act:act-landtour">🚐 투어 상세·예약</a></div>
     <ul class="tl">
-      <li><span class="tm">08:30</span><span class="tx"><b>숙소 픽업, 육상투어 출발</b><span class="sub">보자무싸 육상투어 + ATV 옵션 (예약 시 확인) · 비가 와도 대체 운영이 쉬운 코스</span></span></li>
-      <li><span class="tm">오전</span><span class="tx"><b>안경원숭이(타르시어) 보호구역</b><span class="sub">세계에서 가장 작은 영장류!</span></span></li>
-      <li><span class="tm">12:00</span><span class="tx"><b>로복강 런치크루즈</b><span class="sub">강 위에서 뷔페 점심 + 라이브 음악</span></span></li>
-      <li><span class="tm">오후</span><span class="tx"><b>초콜릿힐 전망대 + ATV 라이딩</b><span class="sub">딸 최애 코스 예감! 폭우 시 ATV만 생략 가능</span></span></li>
-      <li><span class="tm">이어서</span><span class="tx"><b>맨메이드 포레스트</b><span class="sub">보홀 대표 인생샷 명소</span></span></li>
-      <li><span class="tm">17:30</span><span class="tx"><b>복귀 → 저녁 식사</b><span class="sub">내일 새벽 5:30 고래상어 출발 — 일찍 자기!</span></span></li>
+      <li><span class="tm">08:30</span><span class="tx"><b>숙소 픽업, 육상투어 출발</b><span class="sub">보자무싸 육상투어 + ATV 옵션 (예약 시 확인) · 비가 와도 대체 운영이 쉬운 코스</span><a class="golink" data-go="p-act:act-landtour">🚐 투어 상세·예약</a></span></li>
+      <li><span class="tm">오전</span><span class="tx"><b>안경원숭이(타르시어) 보호구역</b><span class="sub">세계에서 가장 작은 영장류!</span><a class="golink" data-go="p-act:act-tarsier">🐒 상세</a></span></li>
+      <li><span class="tm">12:00</span><span class="tx"><b>로복강 런치크루즈</b><span class="sub">강 위에서 뷔페 점심 + 라이브 음악</span><a class="golink" data-go="p-act:act-loboc">🛶 상세</a></span></li>
+      <li><span class="tm">오후</span><span class="tx"><b>초콜릿힐 전망대 + ATV 라이딩</b><span class="sub">딸 최애 코스 예감! 폭우 시 ATV만 생략 가능</span><a class="golink" data-go="p-act:act-choco">🍫 상세</a></span></li>
+      <li><span class="tm">이어서</span><span class="tx"><b>맨메이드 포레스트</b><span class="sub">보홀 대표 인생샷 명소</span><a class="golink" data-go="p-act:act-forest">🌳 상세</a></span></li>
+      <li><span class="tm">17:30</span><span class="tx"><b>복귀 → 저녁 식사</b><span class="sub">내일 새벽 5:30 고래상어 출발 — 일찍 자기!</span><a class="golink" data-go="p-food">🍽️ 맛집 목록</a></span></li>
     </ul>
   </div>
 
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 5</span><span class="ddate">7/22 (수)</span>
       <span class="dtitle">고래상어 🦈 + 반딧불투어 ✨</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d5">🗺️ 이날 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-22">🌦️ 이날 날씨</a></div>
     <ul class="tl">
-      <li><span class="tm">05:30</span><span class="tx"><b>픽업 → 릴라(Lila)로 이동</b><span class="sub">알로나에서 차 약 1시간 · 보자무싸 예약</span></span></li>
+      <li><span class="tm">05:30</span><span class="tx"><b>픽업 → 릴라(Lila)로 이동</b><span class="sub">알로나에서 차 약 1시간 · 보자무싸 예약</span><a class="golink" data-go="p-act:act-whaleshark">🦈 투어 상세·예약</a></span></li>
       <li><span class="tm">오전</span><span class="tx"><b>고래상어 스노클링</b><span class="sub">세계 최대 물고기와 수영! 물속 체험 약 30분</span></span></li>
       <li><span class="tm">10:30</span><span class="tx"><b>복귀 → 리조트 수영장 & 낮잠</b><span class="sub">새벽 기상 보충, 오후는 통으로 휴식</span></span></li>
       <li><span class="tm">16:00</span><span class="tx"><b>기념품 쇼핑</b><span class="sub">드라이망고 · 칼라만시 제품 등</span></span></li>
-      <li><span class="tm">17:30</span><span class="tx"><b>아바탄강 반딧불투어 출발</b><span class="sub">크리스마스트리 같은 반딧불 군락 (석식 포함 여부 확인 · 모기기피제!) · 비 조금이면 진행, 번개·강한 비면 취소</span></span></li>
+      <li><span class="tm">17:30</span><span class="tx"><b>아바탄강 반딧불투어 출발</b><span class="sub">크리스마스트리 같은 반딧불 군락 (석식 포함 여부 확인 · 모기기피제!) · 비 조금이면 진행, 번개·강한 비면 취소</span><a class="golink" data-go="p-act:act-firefly">✨ 투어 상세·예약</a></span></li>
       <li><span class="tm">21:00</span><span class="tx"><b>숙소 복귀</b></span></li>
     </ul>
   </div>
@@ -387,17 +397,18 @@
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 6</span><span class="ddate">7/23 (목) → 7/24 (금)</span>
       <span class="dtitle">여유롭게 마무리 ☕ → 새벽 귀국 🛫</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d6">🗺️ 이날 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-23">🌦️ 이날 날씨</a><a class="golink" data-go="p-flight:fl-in">✈️ 오는 편 상세</a></div>
     <ul class="tl">
       <li><span class="tm">09:00</span><span class="tx"><b>조식 든든히 & 짐 정리</b></span></li>
-      <li><span class="tm">11:00</span><span class="tx"><b>헤난 체크아웃 & 짐 보관</b><span class="sub">레이트 체크아웃 가능하면 최대한 활용</span></span></li>
-      <li><span class="tm">12:00</span><span class="tx"><b>점심 & 알로나 거리 구경</b></span></li>
-      <li><span class="tm">14:00</span><span class="tx"><b>보홀 비팜 (카페·기념품)</b><span class="sub">다우이스, 차 20분 · 꿀 아이스크림 & 유기농 기념품 — 마지막 날 드라이 코스로 딱</span></span></li>
-      <li><span class="tm">16:30</span><span class="tx"><b>마사지 90분 & 샤워</b><span class="sub">비행 전 개운하게 — 샤워 가능한 스파로</span></span></li>
+      <li><span class="tm">11:00</span><span class="tx"><b>헤난 체크아웃 & 짐 보관</b><span class="sub">레이트 체크아웃 가능하면 최대한 활용</span><a class="golink" data-go="p-flight:stay-henann">🏨 숙소 정보</a></span></li>
+      <li><span class="tm">12:00</span><span class="tx"><b>점심 & 알로나 거리 구경</b><a class="golink" data-go="p-food">🍽️ 맛집 목록</a></span></li>
+      <li><span class="tm">14:00</span><span class="tx"><b>보홀 비팜 (카페·기념품)</b><span class="sub">다우이스, 차 20분 · 꿀 아이스크림 & 유기농 기념품 — 마지막 날 드라이 코스로 딱</span><a class="golink" data-go="p-act:act-beefarm">🍯 상세</a></span></li>
+      <li><span class="tm">16:30</span><span class="tx"><b>마사지 90분 & 샤워</b><span class="sub">비행 전 개운하게 — 샤워 가능한 스파로</span><a class="golink" data-go="p-act:act-massage">💆 스파 정보</a></span></li>
       <li><span class="tm">19:00</span><span class="tx"><b>저녁 식사</b><span class="sub">마지막 만찬은 근사하게!</span></span></li>
-      <li><span class="tm">22:30</span><span class="tx"><b>공항으로 이동</b><span class="sub">그랩/픽업 예약 필수 (심야)</span></span></li>
-      <li><span class="tm">01:45</span><span class="tx"><b>LJ44 출발 → 07:25 인천 도착</b><span class="sub">7/24 (금) 아침 귀국 🏠</span></span></li>
+      <li><span class="tm">22:30</span><span class="tx"><b>공항으로 이동</b><span class="sub">그랩/픽업 예약 필수 (심야)</span><a class="golink" data-go="p-tips:tip-move">🚕 이동 팁</a></span></li>
+      <li><span class="tm">01:45</span><span class="tx"><b>LJ44 출발 → 07:25 인천 도착</b><span class="sub">7/24 (금) 아침 귀국 🏠</span><a class="golink" data-go="p-flight:fl-in">✈️ 귀국편 정보</a></span></li>
     </ul>
-    <div class="warn">🐟 <b>정어리떼(나팔링)를 꼭 보고 싶다면?</b> 이날 <b>오전 7:30~10:00에 다녀와서 객실 샤워 후 11시 체크아웃</b>하는 방법만 추천. 체크아웃 후 오후 물놀이는 젖은 짐+밤 비행이 겹쳐서 비추천!</div>
+    <div class="warn">🐟 <b>정어리떼(나팔링)를 꼭 보고 싶다면?</b> 이날 <b>오전 7:30~10:00에 다녀와서 객실 샤워 후 11시 체크아웃</b>하는 방법만 추천. 체크아웃 후 오후 물놀이는 젖은 짐+밤 비행이 겹쳐서 비추천! <a class="golink" data-go="p-act:act-napaling">🐟 나팔링 상세</a></div>
   </div>
 
   </div><!-- /planA -->
@@ -412,48 +423,52 @@
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 2</span><span class="ddate">7/19 (일)</span>
       <span class="dtitle">새벽 도착 → 완전 회복의 날 🌴</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d2">🗺️ 이날 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-19">🌦️ 이날 날씨</a></div>
     <ul class="tl">
-      <li><span class="tm">00:45</span><span class="tx"><b>보홀 팡라오공항 도착</b><span class="sub">이트래블 QR 제시 → 입국심사 → 수하물</span></span></li>
-      <li><span class="tm">02:00</span><span class="tx"><b>알로나 파위칸 체크인, 취침</b><span class="sub">공항 픽업 or 그랩/택시 (공항에서 10~15분)</span></span></li>
+      <li><span class="tm">00:45</span><span class="tx"><b>보홀 팡라오공항 도착</b><span class="sub">이트래블 QR 제시 → 입국심사 → 수하물</span><a class="golink" data-go="p-tips:tip-arrival">🛂 입국 절차</a></span></li>
+      <li><span class="tm">02:00</span><span class="tx"><b>알로나 파위칸 체크인, 취침</b><span class="sub">공항 픽업 or 그랩/택시 (공항에서 10~15분)</span><a class="golink" data-go="p-flight:stay-pawikan">🏨 숙소 정보</a></span></li>
       <li><span class="tm">10:00</span><span class="tx"><b>늦잠 후 브런치</b><span class="sub">오늘은 무조건 푹 쉬는 날</span></span></li>
       <li><span class="tm">12:00</span><span class="tx"><b>파위칸 체크아웃 → 헤난에 짐 맡기기</b></span></li>
-      <li><span class="tm">15:00</span><span class="tx"><b>헤난 리조트 체크인 → 수영장</b></span></li>
-      <li><span class="tm">16:30</span><span class="tx"><b>알로나 비치 산책 & 수영</b><span class="sub">환전·유심 확인, 동네 파악</span></span></li>
-      <li><span class="tm">18:30</span><span class="tx"><b>저녁: 알로나비치 맛집</b><span class="sub">레드크랩 or 씨푸드 (맛집 탭 참고)</span></span></li>
+      <li><span class="tm">15:00</span><span class="tx"><b>헤난 리조트 체크인 → 수영장</b><a class="golink" data-go="p-flight:stay-henann">🏨 숙소 정보</a></span></li>
+      <li><span class="tm">16:30</span><span class="tx"><b>알로나 비치 산책 & 수영</b><span class="sub">환전·유심 확인, 동네 파악</span><a class="golink" data-go="p-act:act-alona">🏖️ 알로나 비치</a></span></li>
+      <li><span class="tm">18:30</span><span class="tx"><b>저녁: 알로나비치 맛집</b><span class="sub">레드크랩 or 씨푸드 (맛집 탭 참고)</span><a class="golink" data-go="p-food">🍽️ 맛집 목록</a></span></li>
     </ul>
   </div>
 
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 3</span><span class="ddate">7/20 (월)</span>
       <span class="dtitle">히낙다난 동굴 + 비치 데이 🕳️🏖️</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-weather:wx-2026-07-20">🌦️ 이날 날씨</a></div>
     <ul class="tl">
       <li><span class="tm">오전</span><span class="tx"><b>조식 후 리조트 수영장 느긋하게</b></span></li>
-      <li><span class="tm">13:30</span><span class="tx"><b>히낙다난 동굴 🕳️</b><span class="sub">다우이스, 차 15~20분 · 동굴 속 천연 수영장</span></span></li>
-      <li><span class="tm">15:30</span><span class="tx"><b>두말루안 비치</b><span class="sub">팡라오에서 물빛 제일 예쁜 비치 (차 15분)</span></span></li>
-      <li><span class="tm">18:30</span><span class="tx"><b>저녁 식사</b><span class="sub">내일 새벽 출발이니 일찍 자기!</span></span></li>
+      <li><span class="tm">13:30</span><span class="tx"><b>히낙다난 동굴 🕳️</b><span class="sub">다우이스, 차 15~20분 · 동굴 속 천연 수영장</span><a class="golink" data-go="p-act:act-hinagdanan">🕳️ 상세·가는 법</a></span></li>
+      <li><span class="tm">15:30</span><span class="tx"><b>두말루안 비치</b><span class="sub">팡라오에서 물빛 제일 예쁜 비치 (차 15분)</span><a class="golink" data-go="p-act:act-dumaluan">🌊 상세</a></span></li>
+      <li><span class="tm">18:30</span><span class="tx"><b>저녁 식사</b><span class="sub">내일 새벽 출발이니 일찍 자기!</span><a class="golink" data-go="p-food">🍽️ 맛집 목록</a></span></li>
     </ul>
   </div>
 
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 4</span><span class="ddate">7/21 (화)</span>
       <span class="dtitle">발리카삭 호핑투어 🐢 (하이라이트!)</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d3">🗺️ 호핑 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-21">🌦️ 이날 날씨</a><a class="golink" data-go="p-act:act-balicasag">🐢 투어 상세·예약</a></div>
     <ul class="tl">
-      <li><span class="tm">06:00</span><span class="tx"><b>기상, 숙소 픽업</b><span class="sub">보자무싸 써니 오션 호핑 (조인) — 유일한 새벽 기상! 기상 악화로 취소되면 7/22로 순연</span></span></li>
+      <li><span class="tm">06:00</span><span class="tx"><b>기상, 숙소 픽업</b><span class="sub">보자무싸 써니 오션 호핑 (조인) — 유일한 새벽 기상! 기상 악화로 취소되면 7/22로 순연</span><a class="golink" data-go="p-act:act-balicasag">🐢 투어 상세·예약</a></span></li>
       <li><span class="tm">오전</span><span class="tx"><b>발리카삭 바다거북 스노클링</b><span class="sub">바다거북 · 열대어 · 산호 군락 / 고프로 촬영 서비스</span></span></li>
       <li><span class="tm">점심</span><span class="tx"><b>방카 위 점심 식사</b><span class="sub">투어 포함</span></span></li>
       <li><span class="tm">~14:00</span><span class="tx"><b>버진아일랜드 → 복귀</b><span class="sub">썰물 때 드러나는 모래섬</span></span></li>
-      <li><span class="tm">16:00</span><span class="tx"><b>마사지 1시간 & 휴식</b><span class="sub">호핑 후 마사지가 국룰!</span></span></li>
-      <li><span class="tm">18:30</span><span class="tx"><b>저녁 식사</b></span></li>
+      <li><span class="tm">16:00</span><span class="tx"><b>마사지 1시간 & 휴식</b><span class="sub">호핑 후 마사지가 국룰!</span><a class="golink" data-go="p-act:act-massage">💆 스파 정보</a></span></li>
+      <li><span class="tm">18:30</span><span class="tx"><b>저녁 식사</b><a class="golink" data-go="p-food">🍽️ 맛집 목록</a></span></li>
     </ul>
   </div>
 
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 5</span><span class="ddate">7/22 (수)</span>
       <span class="dtitle">늘어지게 쉬는 날 + 반딧불 ✨</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d5">🗺️ 반딧불 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-22">🌦️ 이날 날씨</a></div>
     <ul class="tl">
       <li><span class="tm">오전</span><span class="tx"><b>늦잠 + 리조트 수영장/비치</b><span class="sub">밀린 피로 여기서 다 풀기</span></span></li>
       <li><span class="tm">오후</span><span class="tx"><b>카페 & 기념품 쇼핑</b><span class="sub">드라이망고 · 칼라만시 제품 등</span></span></li>
-      <li><span class="tm">17:30</span><span class="tx"><b>아바탄강 반딧불투어 출발</b><span class="sub">크리스마스트리 같은 반딧불 군락 (석식 포함 여부 확인 · 모기기피제!) · 비 조금이면 진행, 번개·강한 비면 취소</span></span></li>
+      <li><span class="tm">17:30</span><span class="tx"><b>아바탄강 반딧불투어 출발</b><span class="sub">크리스마스트리 같은 반딧불 군락 (석식 포함 여부 확인 · 모기기피제!) · 비 조금이면 진행, 번개·강한 비면 취소</span><a class="golink" data-go="p-act:act-firefly">✨ 투어 상세·예약</a></span></li>
       <li><span class="tm">21:00</span><span class="tx"><b>숙소 복귀</b></span></li>
     </ul>
   </div>
@@ -461,17 +476,18 @@
   <div class="card day">
     <div class="dhead"><span class="dnum">DAY 6</span><span class="ddate">7/23 (목) → 7/24 (금)</span>
       <span class="dtitle">여유롭게 마무리 ☕ → 새벽 귀국 🛫</span></div>
+    <div class="dlinks"><a class="golink" data-go="p-map:map-d6">🗺️ 이날 동선 지도</a><a class="golink" data-go="p-weather:wx-2026-07-23">🌦️ 이날 날씨</a><a class="golink" data-go="p-flight:fl-in">✈️ 오는 편 상세</a></div>
     <ul class="tl">
       <li><span class="tm">09:00</span><span class="tx"><b>조식 든든히 & 짐 정리</b></span></li>
-      <li><span class="tm">11:00</span><span class="tx"><b>헤난 체크아웃 & 짐 보관</b><span class="sub">레이트 체크아웃 가능하면 최대한 활용</span></span></li>
-      <li><span class="tm">12:00</span><span class="tx"><b>점심 & 알로나 거리 구경</b></span></li>
-      <li><span class="tm">14:00</span><span class="tx"><b>보홀 비팜 (카페·기념품)</b><span class="sub">다우이스, 차 20분 · 꿀 아이스크림 & 유기농 기념품 — 마지막 날 드라이 코스로 딱</span></span></li>
-      <li><span class="tm">16:30</span><span class="tx"><b>마사지 90분 & 샤워</b><span class="sub">비행 전 개운하게 — 샤워 가능한 스파로</span></span></li>
+      <li><span class="tm">11:00</span><span class="tx"><b>헤난 체크아웃 & 짐 보관</b><span class="sub">레이트 체크아웃 가능하면 최대한 활용</span><a class="golink" data-go="p-flight:stay-henann">🏨 숙소 정보</a></span></li>
+      <li><span class="tm">12:00</span><span class="tx"><b>점심 & 알로나 거리 구경</b><a class="golink" data-go="p-food">🍽️ 맛집 목록</a></span></li>
+      <li><span class="tm">14:00</span><span class="tx"><b>보홀 비팜 (카페·기념품)</b><span class="sub">다우이스, 차 20분 · 꿀 아이스크림 & 유기농 기념품 — 마지막 날 드라이 코스로 딱</span><a class="golink" data-go="p-act:act-beefarm">🍯 상세</a></span></li>
+      <li><span class="tm">16:30</span><span class="tx"><b>마사지 90분 & 샤워</b><span class="sub">비행 전 개운하게 — 샤워 가능한 스파로</span><a class="golink" data-go="p-act:act-massage">💆 스파 정보</a></span></li>
       <li><span class="tm">19:00</span><span class="tx"><b>저녁 식사</b><span class="sub">마지막 만찬은 근사하게!</span></span></li>
-      <li><span class="tm">22:30</span><span class="tx"><b>공항으로 이동</b><span class="sub">그랩/픽업 예약 필수 (심야)</span></span></li>
-      <li><span class="tm">01:45</span><span class="tx"><b>LJ44 출발 → 07:25 인천 도착</b><span class="sub">7/24 (금) 아침 귀국 🏠</span></span></li>
+      <li><span class="tm">22:30</span><span class="tx"><b>공항으로 이동</b><span class="sub">그랩/픽업 예약 필수 (심야)</span><a class="golink" data-go="p-tips:tip-move">🚕 이동 팁</a></span></li>
+      <li><span class="tm">01:45</span><span class="tx"><b>LJ44 출발 → 07:25 인천 도착</b><span class="sub">7/24 (금) 아침 귀국 🏠</span><a class="golink" data-go="p-flight:fl-in">✈️ 귀국편 정보</a></span></li>
     </ul>
-    <div class="warn">🐟 <b>정어리떼(나팔링)를 꼭 보고 싶다면?</b> 이날 <b>오전 7:30~10:00에 다녀와서 객실 샤워 후 11시 체크아웃</b>하는 방법만 추천. 체크아웃 후 오후 물놀이는 젖은 짐+밤 비행이 겹쳐서 비추천!</div>
+    <div class="warn">🐟 <b>정어리떼(나팔링)를 꼭 보고 싶다면?</b> 이날 <b>오전 7:30~10:00에 다녀와서 객실 샤워 후 11시 체크아웃</b>하는 방법만 추천. 체크아웃 후 오후 물놀이는 젖은 짐+밤 비행이 겹쳐서 비추천! <a class="golink" data-go="p-act:act-napaling">🐟 나팔링 상세</a></div>
   </div>
 
   </div><!-- /planB -->
@@ -492,17 +508,7 @@
     <h3><span class="em">🌦️</span> 여행 기간 예보 — 기상모델 3종 비교</h3>
     <p class="muted" style="margin-bottom:10px">알로나 비치(헤난 리조트) 기준 · <b>페이지를 열 때마다 최신 예보로 자동 갱신</b>돼요.</p>
     <div class="wx-meta"><span id="wxStamp">🔄 갱신 중…</span><button class="wx-btn" id="wxReload">🔄 새로고침</button></div>
-    <div class="wx-wrap">
-      <table class="wx">
-        <thead><tr>
-          <th style="text-align:left">날짜</th>
-          <th>ECMWF<span>유럽 · Windy 기본</span></th>
-          <th>GFS<span>미국 NOAA</span></th>
-          <th>ICON<span>독일 기상청</span></th>
-        </tr></thead>
-        <tbody id="wxBody"><tr><td colspan="4" class="wx-loading">🔄 세 모델 예보를 불러오는 중…</td></tr></tbody>
-      </table>
-    </div>
+    <div id="wxBody"><p class="wx-loading">🔄 세 모델 예보를 불러오는 중…</p></div>
     <p class="muted" id="wxSummary" style="margin-top:10px"></p>
   </div>
 
@@ -517,8 +523,8 @@
   </div>
 
   <div class="card">
-    <h3><span class="em">📖</span> 표 읽는 법</h3>
-    <p class="muted">· 각 칸: 하늘 상태 / <b>최고°<span style="opacity:.6">/최저°</span></b> / 예상 강수량<br>
+    <h3><span class="em">📖</span> 예보 읽는 법</h3>
+    <p class="muted">· 날짜마다 모델 3개(ECMWF·GFS·ICON)의 칸이 나란히: 하늘 상태 / <b>최고°<span style="opacity:.6">/최저°</span></b> / 예상 강수량<br>
     · 날짜 옆 💧는 강수확률 (GFS 기준)<br>
     · 7월 보홀 비는 대부분 <b>오후 스콜</b> — 강수량이 찍혀 있어도 하루 종일 오는 비는 드물어요<br>
     · 세 모델의 예보가 서로 다르면 그만큼 불확실하다는 뜻 — 해상 투어 전날 밤엔 업체(보자무싸)와 진행 여부를 꼭 확인!</p>
@@ -531,18 +537,17 @@
 
   <div class="card">
     <h3><span class="em">🗺️</span> 일자별 이동 동선 (플랜 A 기준)</h3>
-    <div class="day-btns" id="mapDays"></div>
-    <div id="map"></div>
-    <ul class="legs" id="mapLegs" style="list-style:none"></ul>
-    <p class="muted" style="margin-top:10px">거리·시간은 도로 기준 대략값이에요. 지도를 손가락으로 확대/이동해 보세요. 🚤 표시는 방카(보트) 이동.</p>
+    <p class="muted">아래로 내리면 <b>날짜별 지도가 전부</b> 나와요. 거리·시간은 도로 기준 대략값 · 🚤 표시는 방카(보트) 이동 · 휴대폰에서 지도는 <b>두 손가락으로 확대·이동</b>할 수 있어요 (한 손가락은 페이지 스크롤).</p>
   </div>
+
+  <div id="mapCards"><div class="card"><p class="muted wx-loading">🔄 지도를 준비하는 중…</p></div></div>
 
 </section>
 
 <!-- ═══════════ 액티비티 ═══════════ -->
 <section class="panel" id="p-act">
 
-  <div class="card">
+  <div class="card" id="act-booking">
     <h3><span class="em">🚨</span> 예약, 오늘 안에 이렇게! (출발 D-1)</h3>
     <p class="muted" style="margin-bottom:10px">7월 성수기엔 인기 투어부터 마감돼요. 특히 <b>발리카삭은 일일 입장 인원 제한</b>이 있어 가장 먼저 확정!</p>
     <div class="book" style="margin-top:0">
@@ -567,7 +572,7 @@
   </div>
 
   <!-- DAY 2 : 히낙다난 -->
-  <div class="card act">
+  <div class="card act" id="act-hinagdanan">
     <div class="act-img"><img src="images/cave.jpg" alt="히낙다난 동굴 속 에메랄드빛 천연 수영장" loading="lazy"><span class="when">DAY 2 · 7/19 (일) 오후</span></div>
     <div class="act-body">
       <h3><span class="em">🕳️</span> 히낙다난 동굴</h3>
@@ -589,7 +594,7 @@
   </div>
 
   <!-- DAY 3 : 발리카삭 -->
-  <div class="card act">
+  <div class="card act" id="act-balicasag">
     <div class="act-img"><img src="images/turtle.jpg" alt="발리카삭 앞바다 바다거북" loading="lazy"><span class="when">DAY 3 · 7/20 (월) 06:00 픽업</span></div>
     <div class="act-body">
       <h3><span class="em">🐢</span> 발리카삭 호핑투어 (하이라이트!)</h3>
@@ -618,7 +623,7 @@
   </div>
 
   <!-- DAY 4 : 육상투어 묶음 -->
-  <div class="card">
+  <div class="card" id="act-landtour">
     <h3><span class="em">🚐</span> DAY 4 · 육상투어 풀코스 + ATV — 7/21 (화)</h3>
     <span class="chip">🅰️ 플랜A</span><span class="chip">08:30 픽업 → 17:30 복귀</span><span class="chip">총 이동 ~150km</span>
     <p class="muted" style="margin:8px 0 0">아래 네 곳(안경원숭이 → 로복강 → 초콜릿힐+ATV → 맨메이드 포레스트)을 하루에 도는 코스예요.</p>
@@ -639,7 +644,7 @@
     </div>
   </div>
 
-  <div class="card act">
+  <div class="card act" id="act-tarsier">
     <div class="act-img"><img src="images/tarsier.jpg" alt="나뭇가지에 매달린 필리핀 안경원숭이(타르시어)" loading="lazy"><span class="when">DAY 4 오전</span></div>
     <div class="act-body">
       <h3><span class="em">🐒</span> 안경원숭이(타르시어) 보호구역</h3>
@@ -654,7 +659,7 @@
     </div>
   </div>
 
-  <div class="card act">
+  <div class="card act" id="act-loboc">
     <div class="act-img"><img src="images/loboc.jpg" alt="로복강 런치크루즈 뗏목 레스토랑" loading="lazy"><span class="when">DAY 4 점심</span></div>
     <div class="act-body">
       <h3><span class="em">🛶</span> 로복강 런치크루즈</h3>
@@ -669,7 +674,7 @@
     </div>
   </div>
 
-  <div class="card act">
+  <div class="card act" id="act-choco">
     <div class="act-img"><img src="images/chocolate.jpg" alt="초콜릿힐 전망대에서 본 언덕 풍경" loading="lazy"><span class="when">DAY 4 오후</span></div>
     <div class="act-body">
       <h3><span class="em">🍫</span> 초콜릿힐 전망대 + ATV</h3>
@@ -685,7 +690,7 @@
     </div>
   </div>
 
-  <div class="card act">
+  <div class="card act" id="act-forest">
     <div class="act-img"><img src="images/forest.jpg" alt="빌라르 맨메이드 포레스트 마호가니 숲길" loading="lazy"><span class="when">DAY 4 귀갓길</span></div>
     <div class="act-body">
       <h3><span class="em">🌳</span> 맨메이드 포레스트</h3>
@@ -701,7 +706,7 @@
   </div>
 
   <!-- DAY 5 : 고래상어 -->
-  <div class="card act">
+  <div class="card act" id="act-whaleshark">
     <div class="act-img"><img src="images/whaleshark.jpg" alt="수면 근처의 고래상어와 스노클러" loading="lazy"><span class="when">DAY 5 · 7/22 (수) 05:30 픽업</span></div>
     <div class="act-body">
       <h3><span class="em">🦈</span> 릴라 고래상어 스노클링</h3>
@@ -727,7 +732,7 @@
   </div>
 
   <!-- DAY 5 저녁 : 반딧불 -->
-  <div class="card act">
+  <div class="card act" id="act-firefly">
     <div class="act-img"><img src="images/firefly.jpg" alt="밤하늘 아래 반딧불 불빛 궤적" loading="lazy"><span class="when">DAY 5 · 7/22 (수) 17:30 출발</span></div>
     <div class="act-body">
       <h3><span class="em">✨</span> 아바탄강 반딧불투어</h3>
@@ -753,7 +758,7 @@
   </div>
 
   <!-- DAY 6 : 나팔링 -->
-  <div class="card act">
+  <div class="card act" id="act-napaling">
     <div class="act-img"><img src="images/sardines.jpg" alt="산호초 위로 소용돌이치는 정어리떼" loading="lazy"><span class="when">DAY 6 · 7/23 (목) 오전 옵션</span></div>
     <div class="act-body">
       <h3><span class="em">🐟</span> 나팔링 정어리떼 스노클링 (옵션)</h3>
@@ -779,7 +784,7 @@
   </div>
 
   <!-- 보너스 -->
-  <div class="card act">
+  <div class="card act" id="act-alona">
     <div class="act-img"><img src="images/alona.jpg" alt="알로나 비치 해변과 방카 보트" loading="lazy"><span class="when">매일 · 숙소 앞</span></div>
     <div class="act-body">
       <h3><span class="em">🏖️</span> 알로나 비치</h3>
@@ -791,7 +796,7 @@
     </div>
   </div>
 
-  <div class="card act">
+  <div class="card act" id="act-dumaluan">
     <div class="act-img"><img src="images/dumaluan.jpg" alt="두말루안 비치의 하얀 모래사장" loading="lazy"><span class="when">🅱️ 플랜B · 컨디션 조절용</span></div>
     <div class="act-body">
       <h3><span class="em">🌊</span> 두말루안 비치</h3>
@@ -806,7 +811,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" id="act-beefarm">
     <h3><span class="em">🍯</span> 보홀 비팜 (Bohol Bee Farm) — 7/23 (목) 오후</h3>
     <span class="chip">🅰️🅱️ 공통</span><span class="chip">마지막 날 드라이 코스</span>
     <p class="muted" style="margin:8px 0 0">양봉장에서 시작한 유기농 농장+레스토랑+카페. 명물 <b>꿀 아이스크림</b>(허니콘)과 유기농 기념품 숍이 있어 마지막 날 물에 안 젖는 코스로 제격이에요. 바다 절벽 전망 좋음.</p>
@@ -820,7 +825,7 @@
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" id="act-massage">
     <h3><span class="em">💆</span> 마사지 & 스파 — 7/20 오후 · 7/23 오후</h3>
     <table class="simple">
       <tr><th>시세</th><td class="price">로드샵 1시간 전신 400~600페소 (≈1~1.5만원) + 팁 50~100페소</td></tr>
@@ -929,7 +934,7 @@
     <label class="ck"><input type="checkbox" data-k="et6"><span class="txt">비행 목베개 (밤 비행 왕복)</span></label>
   </div>
 
-  <div class="card clgroup">
+  <div class="card clgroup" id="ck-book">
     <h4>📞 예약 · 확인</h4>
     <label class="ck"><input type="checkbox" data-k="rv4"><span class="txt">① 공항→파위칸 새벽 픽업 수배 (숙소 or 보자무싸)<span class="sub">새벽엔 그랩 의존 금지! 문자/메일로 서면 확정 + "항공 지연 시 3~4시 도착 가능"까지 미리 통보</span></span></label>
     <label class="ck"><input type="checkbox" data-k="rv3"><span class="txt">② 알로나 파위칸에 새벽 2시경 도착 예정 미리 연락<span class="sub">+63 919 414 0619 · alona_pawikan@yahoo.com</span></span></label>
@@ -959,14 +964,14 @@
     · 1페소 ≈ 25원 안팎 (출발 전 환율 확인)</p>
   </div>
 
-  <div class="card">
+  <div class="card" id="tip-move">
     <h3><span class="em">🚕</span> 이동</h3>
     <p>· 팡라오공항 → 알로나비치 차로 15~20분<br>
     · 그랩(Grab)이 되지만 차량이 적음 — <b>새벽 도착 픽업은 사전 예약 강추</b><br>
     · 트라이시클(오토바이 택시)은 근거리 이동에 편리, 탑승 전 요금 흥정</p>
   </div>
 
-  <div class="card">
+  <div class="card" id="tip-arrival">
     <h3><span class="em">🛂</span> 입국 절차 (팡라오공항)</h3>
     <p>① 이트래블 QR 준비 (캡처!) → ② 입국심사 (리턴티켓·숙소 물어볼 수 있음) → ③ 수하물 → ④ 세관. 가족 함께 심사받으면 빠름. <b>이트래블은 100% 무료</b> — 수수료 요구하는 사이트는 전부 사기!</p>
   </div>
@@ -1008,15 +1013,34 @@
 </footer>
 
 <script>
-// 탭 전환
+// 탭 전환 + 일정표 → 상세 딥링크
 const tabs = document.querySelectorAll('#tabs button');
-tabs.forEach(b => b.addEventListener('click', () => {
-  tabs.forEach(x => x.classList.remove('on'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-  b.classList.add('on');
-  document.getElementById(b.dataset.t).classList.add('on');
-  window.scrollTo({top:0, behavior:'smooth'});
-}));
+const navEl = document.getElementById('tabs');
+function openPanel(id, anchor){
+  tabs.forEach(x => x.classList.toggle('on', x.dataset.t === id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('on', p.id === id));
+  if (id === 'p-map') initMaps();
+  if (id === 'p-weather' && Date.now() - wxLastOk > 30*60*1000) loadWeather();
+  if (anchor) {
+    setTimeout(() => {
+      const el = document.getElementById(anchor);
+      if (!el) { window.scrollTo({top:0}); return; }
+      const y = el.getBoundingClientRect().top + window.scrollY - navEl.offsetHeight - 10;
+      window.scrollTo({top:y, behavior:'smooth'});
+      el.classList.remove('hl'); void el.offsetWidth; el.classList.add('hl');
+    }, id === 'p-map' ? 150 : 60);
+  } else {
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+tabs.forEach(b => b.addEventListener('click', () => openPanel(b.dataset.t)));
+document.addEventListener('click', e => {
+  const g = e.target.closest('a.golink[data-go]');
+  if (!g) return;
+  e.preventDefault();
+  const parts = g.dataset.go.split(':');
+  openPanel(parts[0], parts[1]);
+});
 
 // 플랜 A/B 전환
 const pA = document.getElementById('btnPlanA'), pB = document.getElementById('btnPlanB');
@@ -1104,44 +1128,42 @@ const ROUTES = {
       ['헤난 → 공항 (밤 22:30)','6km · 차 15분']
     ]}
 };
-let theMap = null, layerGroup = null;
-function showRoute(key){
-  const r = ROUTES[key];
-  document.querySelectorAll('#mapDays button').forEach(b => b.classList.toggle('on', b.dataset.d === key));
-  layerGroup.clearLayers();
-  r.lines.forEach(ln => {
-    L.polyline(ln.pts.map(k => P[k].ll), {color:'#ff6b57', weight:4, opacity:.85, dashArray: ln.dash ? '8 8' : null}).addTo(layerGroup);
+let mapsInited = false;
+const dayMaps = [];
+function initMaps(){
+  if (mapsInited) { setTimeout(() => dayMaps.forEach(m => m.invalidateSize()), 60); return; }
+  mapsInited = true;
+  document.getElementById('mapCards').innerHTML = Object.keys(ROUTES).map(k => {
+    const r = ROUTES[k];
+    return `<div class="card" id="map-${k}">
+      <h3><span class="em">📍</span> ${r.label} — ${r.title}</h3>
+      <div class="map-box" id="mapbox-${k}"></div>
+      <ul class="legs" style="list-style:none">${r.legs.map((l, i) => `<li><span class="no">${i+1}</span><span>${l[0]}</span><span class="dist">${l[1]}</span></li>`).join('')}</ul>
+    </div>`;
+  }).join('');
+  Object.keys(ROUTES).forEach(k => {
+    const r = ROUTES[k];
+    const m = L.map('mapbox-'+k, {scrollWheelZoom:false, dragging:!L.Browser.mobile});
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {maxZoom:18, attribution:'&copy; OpenStreetMap'}).addTo(m);
+    r.lines.forEach(ln => {
+      L.polyline(ln.pts.map(p => P[p].ll), {color:'#ff6b57', weight:4, opacity:.85, dashArray: ln.dash ? '8 8' : null}).addTo(m);
+    });
+    r.stops.forEach((p, i) => {
+      L.marker(P[p].ll, {icon: L.divIcon({className:'', html:`<div class="num-marker">${i+1}</div>`, iconSize:[26,26], iconAnchor:[13,13]})})
+        .bindPopup(`<b>${P[p].name}</b>`).addTo(m);
+    });
+    m.fitBounds(r.stops.map(p => P[p].ll), {padding:[30,30]});
+    dayMaps.push(m);
   });
-  const bounds = [];
-  r.stops.forEach((k, i) => {
-    bounds.push(P[k].ll);
-    L.marker(P[k].ll, {icon: L.divIcon({className:'', html:`<div class="num-marker">${i+1}</div>`, iconSize:[26,26], iconAnchor:[13,13]})})
-      .bindPopup(`<b>${P[k].name}</b>`).addTo(layerGroup);
-  });
-  theMap.fitBounds(bounds, {padding:[36,36]});
-  document.getElementById('mapLegs').innerHTML =
-    `<li style="font-weight:800; color:var(--teal-dark)">${r.label} — ${r.title}</li>` +
-    r.legs.map((l, i) => `<li><span class="no">${i+1}</span><span>${l[0]}</span><span class="dist">${l[1]}</span></li>`).join('');
 }
-function initMap(){
-  if (theMap) { theMap.invalidateSize(); return; }
-  theMap = L.map('map', {scrollWheelZoom:false});
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {maxZoom:18, attribution:'&copy; OpenStreetMap'}).addTo(theMap);
-  layerGroup = L.layerGroup().addTo(theMap);
-  const db = document.getElementById('mapDays');
-  db.innerHTML = Object.keys(ROUTES).map(k => `<button data-d="${k}">${ROUTES[k].label}</button>`).join('');
-  db.querySelectorAll('button').forEach(b => b.addEventListener('click', () => showRoute(b.dataset.d)));
-  showRoute('d2');
-}
-document.querySelector('#tabs button[data-t="p-map"]').addEventListener('click', () => setTimeout(initMap, 60));
 
 // ═══ 날씨 예보 (Open-Meteo · 페이지 열 때마다 자동 갱신) ═══
 const WX_LAT = 9.5482, WX_LON = 123.7745;
 const WX_MODELS = [
-  {key:'ecmwf_ifs025'},
-  {key:'gfs_seamless'},
-  {key:'icon_seamless'}
+  {key:'ecmwf_ifs025', name:'ECMWF'},
+  {key:'gfs_seamless', name:'GFS'},
+  {key:'icon_seamless', name:'ICON'}
 ];
 const WX_DAYS = {
   '2026-07-18': ['토','✈️ 출발'],
@@ -1174,7 +1196,7 @@ function wxRender(main, prob, note){
   const d = main.daily;
   const todayManila = new Date(Date.now() + 8*3600*1000).toISOString().slice(0,10);
   let maxRain = -1, maxRainDate = null;
-  const rows = d.time.map((date, i) => {
+  const blocks = d.time.map((date, i) => {
     const [dow, label] = WX_DAYS[date] || ['',''];
     const md = `${+date.slice(5,7)}/${+date.slice(8,10)}`;
     const pp = prob && prob.daily && prob.daily.precipitation_probability_max
@@ -1182,18 +1204,18 @@ function wxRender(main, prob, note){
     const sums = WX_MODELS.map(m => d['precipitation_sum_'+m.key][i]).filter(v => v != null);
     const avg = sums.length ? sums.reduce((a,b)=>a+b,0)/sums.length : 0;
     if (date >= todayManila && date < '2026-07-24' && avg > maxRain) { maxRain = avg; maxRainDate = `${md} (${dow})`; }
-    const cls = date < todayManila ? 'wx-past' : (date === todayManila ? 'wx-today' : '');
+    const cls = date < todayManila ? ' wx-past' : (date === todayManila ? ' wx-today' : '');
     const cells = WX_MODELS.map(m => {
       const tx = d['temperature_2m_max_'+m.key][i];
-      if (tx == null) return '<td class="wx-cell"><span class="wi">·</span><span class="rn">예보 범위 밖</span></td>';
+      if (tx == null) return `<div class="wx-cell"><span class="mdl">${m.name}</span><span class="wi">·</span><span class="rn">예보 범위 밖</span></div>`;
       const tn = d['temperature_2m_min_'+m.key][i];
       const rn = d['precipitation_sum_'+m.key][i];
       const [ic, lb] = wxIcon(d['weather_code_'+m.key][i]);
-      return `<td class="wx-cell"><span class="wi">${ic}</span><span class="tt">${Math.round(tx)}°<i>/${Math.round(tn)}°</i></span><span class="rn">${lb} · ${Math.round(rn)}㎜</span></td>`;
+      return `<div class="wx-cell"><span class="mdl">${m.name}</span><span class="wi">${ic}</span><span class="tt">${Math.round(tx)}°<i>/${Math.round(tn)}°</i></span><span class="rn">${lb} · ${Math.round(rn)}㎜</span></div>`;
     }).join('');
-    return `<tr class="${cls}"><td class="wx-day">${md} (${dow})<span class="sub">${label}</span>${pp != null ? `<span class="pr">💧 ${pp}%</span>` : ''}</td>${cells}</tr>`;
+    return `<div class="wx-block${cls}" id="wx-${date}"><div class="wx-dhead">${md} (${dow})${date === todayManila ? ' <span class="tdy">오늘</span>' : ''}<span class="sub">${label}</span>${pp != null ? `<span class="pr">💧 ${pp}%</span>` : ''}</div><div class="wx-grid">${cells}</div></div>`;
   }).join('');
-  document.getElementById('wxBody').innerHTML = rows;
+  document.getElementById('wxBody').innerHTML = blocks;
   document.getElementById('wxSummary').textContent =
     (maxRain >= 5 && maxRainDate ? `📌 예보상 비가 가장 몰리는 날: ${maxRainDate} — 그날은 실내·마사지·쇼핑을 유연하게!` : '');
   document.getElementById('wxStamp').textContent = note;
@@ -1219,15 +1241,12 @@ async function loadWeather(){
       wxRender(cached.main, cached.prob, `⚠️ 갱신 실패 — ${t.getMonth()+1}/${t.getDate()} ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')} 저장본 표시 중`);
     } else {
       document.getElementById('wxBody').innerHTML =
-        '<tr><td colspan="4" class="wx-loading">📡 예보를 불러오지 못했어요. 인터넷 연결 확인 후 새로고침을 눌러주세요.<br>급하면 아래 3사 바로가기 버튼으로 확인!</td></tr>';
+        '<p class="wx-loading">📡 예보를 불러오지 못했어요. 인터넷 연결 확인 후 새로고침을 눌러주세요.<br>급하면 아래 3사 바로가기 버튼으로 확인!</p>';
       stamp.textContent = '⚠️ 갱신 실패';
     }
   }
 }
 document.getElementById('wxReload').addEventListener('click', loadWeather);
-document.querySelector('#tabs button[data-t="p-weather"]').addEventListener('click', () => {
-  if (Date.now() - wxLastOk > 30*60*1000) loadWeather();
-});
 loadWeather();
 
 // 체크리스트 (localStorage)
